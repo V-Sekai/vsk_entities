@@ -56,7 +56,7 @@ func set_global_transform(p_global_transform: Transform, _p_update_physics: bool
 
 # Change the properties of the rigid body based on whether or not it is parented
 func _update_parented_node_state():
-	if get_entity_node().get_entity_parent():
+	if get_entity_node().hierarchy_component_node.get_entity_parent():
 		physics_node_root.mode = RigidBody.MODE_STATIC
 		physics_node_root.collision_layer = collison_layers
 		physics_node_root.collision_mask = 0
@@ -236,7 +236,7 @@ func _entity_physics_process(p_delta: float) -> void:
 
 func _entity_representation_process(p_delta: float) -> void:
 	._entity_representation_process(p_delta)
-	if physics_node_root and get_entity_node().get_entity_parent() == null:
+	if physics_node_root and get_entity_node().hierarchy_component_node.get_entity_parent() == null:
 		set_transform(physics_node_root.transform)
 		if _target:
 			_target.transform = physics_node_root.transform
@@ -257,5 +257,5 @@ func _entity_ready() -> void:
 			_render_smooth.set_target(_render_smooth.get_path_to(_target))
 			_render_smooth.teleport()
 			
-		entity_node.connect("entity_parent_changed", self, "_entity_parent_changed")
+		entity_node.hierarchy_component_node.connect("entity_parent_changed", self, "_entity_parent_changed")
 			
