@@ -1,8 +1,7 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://addons/smoothing/smoothing.gd" type="Script" id=1]
 [ext_resource path="res://addons/network_manager/network_model.gd" type="Script" id=2]
-[ext_resource path="res://addons/network_manager/network_hierarchy.gd" type="Script" id=3]
 [ext_resource path="res://addons/network_manager/network_logic.gd" type="Script" id=4]
 [ext_resource path="res://addons/safescript/safescript_logic_container.gd" type="Script" id=5]
 [ext_resource path="res://addons/network_manager/network_identity.gd" type="Script" id=6]
@@ -27,14 +26,9 @@ script = ExtResource( 4 )
 _entity_node_path = NodePath("..")
 cached_writer_size = 128
 
-[node name="NetworkHierarchy" type="Node" parent="MovingPlatformNetworkLogic"]
-script = ExtResource( 3 )
-_entity_node_path = NodePath("../..")
-
 [node name="NetworkTransform" type="Node" parent="MovingPlatformNetworkLogic"]
 script = ExtResource( 8 )
 _entity_node_path = NodePath("../..")
-cached_writer_size = 0
 origin_interpolation_factor = 15.0
 rotation_interpolation_factor = 15.0
 snap_threshold = 5.0
@@ -42,7 +36,6 @@ snap_threshold = 5.0
 [node name="NetworkModel" type="Node" parent="MovingPlatformNetworkLogic"]
 script = ExtResource( 2 )
 _entity_node_path = NodePath("../..")
-cached_writer_size = 0
 
 [node name="NetworkIdentity" type="Node" parent="."]
 script = ExtResource( 6 )

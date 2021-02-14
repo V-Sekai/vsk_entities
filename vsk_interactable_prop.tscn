@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://addons/entity_manager/entity.gd" type="Script" id=1]
 [ext_resource path="res://addons/entity_manager/transform_notification.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://addons/network_manager/network_identity.gd" type="Script" id=8]
 [ext_resource path="res://addons/entity_manager/hierarchy_component.gd" type="Script" id=9]
 [ext_resource path="res://addons/vsk_entities/extensions/prop_pickup_controller.gd" type="Script" id=10]
+[ext_resource path="res://addons/network_manager/network_hierarchy.gd" type="Script" id=11]
 [ext_resource path="res://addons/smoothing/smoothing.gd" type="Script" id=17]
 [ext_resource path="res://addons/vsk_entities/extensions/prop_simulation_logic.gd" type="Script" id=18]
 
@@ -41,11 +42,7 @@ script = ExtResource( 18 )
 _entity_node_path = NodePath("..")
 _entity_type = "InteractableProp"
 _render_node_path = NodePath("../RenderSmooth/Render")
-model_scene = null
-hit_sample = null
 hit_velocity = 0.001
-physics_material = null
-mass = 1.0
 collison_layers = 48
 collison_mask = 17
 _render_smooth_path = NodePath("../RenderSmooth")
@@ -56,11 +53,15 @@ script = ExtResource( 6 )
 _entity_node_path = NodePath("..")
 cached_writer_size = 128
 
-[node name="NetworkTransform" type="Node" parent="PropNetworkLogic"]
-script = ExtResource( 4 )
+[node name="NetworkHierarchy" type="Node" parent="PropNetworkLogic"]
+script = ExtResource( 11 )
 _entity_node_path = NodePath("../..")
 sync_parent = true
 sync_attachment = true
+
+[node name="NetworkTransform" type="Node" parent="PropNetworkLogic"]
+script = ExtResource( 4 )
+_entity_node_path = NodePath("../..")
 origin_interpolation_factor = 15.0
 rotation_interpolation_factor = 15.0
 snap_threshold = 5.0
@@ -68,7 +69,6 @@ snap_threshold = 5.0
 [node name="NetworkModel" type="Node" parent="PropNetworkLogic"]
 script = ExtResource( 3 )
 _entity_node_path = NodePath("../..")
-cached_writer_size = 0
 
 [node name="NetworkPhysics" type="Node" parent="PropNetworkLogic"]
 script = ExtResource( 5 )

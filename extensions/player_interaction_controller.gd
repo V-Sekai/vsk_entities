@@ -22,8 +22,9 @@ const INTERACTABLE_ENTITY_TYPES: Array = ["InteractableProp"]
 var hand_id: int
 
 func _ready():
-	dss = _camera_controller_node.get_world().get_direct_space_state()
-	hand_id = _player_pickup_controller_node.RIGHT_HAND_ID
+	if !Engine.is_editor_hint():
+		dss = _camera_controller_node.get_world().get_direct_space_state()
+		hand_id = _player_pickup_controller_node.RIGHT_HAND_ID
 
 func cast_camera_interaction_ray() -> Dictionary:
 	var camera_global_transform = _camera_controller_node.camera.global_transform

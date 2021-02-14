@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://addons/entity_manager/entity.gd" type="Script" id=1]
 [ext_resource path="res://addons/entity_manager/transform_notification.gd" type="Script" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://addons/vsk_entities/extensions/pickup_controller.gd" type="Script" id=19]
 [ext_resource path="res://addons/vsk_entities/extensions/player_teleport_controller.gd" type="Script" id=20]
 [ext_resource path="res://addons/vsk_entities/extensions/nametag.tscn" type="PackedScene" id=21]
+[ext_resource path="res://addons/network_manager/network_hierarchy.gd" type="Script" id=22]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.4
@@ -72,6 +73,12 @@ script = ExtResource( 6 )
 _entity_node_path = NodePath("..")
 cached_writer_size = 256
 
+[node name="NetworkHierarchy" type="Node" parent="PlayerNetworkLogic"]
+script = ExtResource( 22 )
+_entity_node_path = NodePath("../..")
+sync_parent = true
+sync_attachment = true
+
 [node name="NetworkTransform" type="Node" parent="PlayerNetworkLogic"]
 script = ExtResource( 18 )
 _entity_node_path = NodePath("../..")
@@ -122,8 +129,6 @@ camera_clip_layers = 0
 
 [node name="AvatarDisplay" type="Spatial" parent="TargetSmooth/Render"]
 script = ExtResource( 14 )
-shrink_mode = 0
-default_avatar_height = 1.8
 _ren_ik_path = NodePath("../RenIK")
 _ik_space_path = NodePath("../IKSpace")
 player_camera_controller_path = NodePath("../../PlayerCameraController")
@@ -149,11 +154,6 @@ arm_elbow_direction_offset = 90.0
 
 [node name="Nametag" parent="TargetSmooth" instance=ExtResource( 21 )]
 visible = false
-offset_ratio = Vector2( 0.5, 0.5 )
-interactable = false
-collision_mask = 0
-collision_layer = 0
-nametag = ""
 
 [node name="Target" type="Spatial" parent="."]
 
