@@ -123,6 +123,7 @@ func _entity_ready() -> void:
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
+		cache_nodes()
 		_setup_model_nodes()
 
 
