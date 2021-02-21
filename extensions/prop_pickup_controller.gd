@@ -6,7 +6,7 @@ onready var _entity_node: Node = get_node_or_null(_entity_node_path)
 func _on_attempt_grab(p_args: Dictionary) -> void:
 	_entity_node.request_to_become_master()
 	
-	var grabber_network_id: int = p_args["grabber_network_id"]
+	#var grabber_network_id: int = p_args["grabber_network_id"]
 	var grabber_entity: EntityRef = p_args["grabber_entity_ref"]
 	var grabber_transform: Transform = p_args["grabber_transform"]
 	

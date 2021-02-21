@@ -11,6 +11,8 @@ export (float) var mass = 1.0
 export (int, LAYERS_3D_PHYSICS) var collison_layers: int = 1
 export (int, LAYERS_3D_PHYSICS) var collison_mask: int = 1
 
+var sleeping: bool = false
+
 export (NodePath) var _render_smooth_path: NodePath = NodePath()
 export (NodePath) var _target_path: NodePath = NodePath()
 var _render_smooth: Spatial = null
@@ -102,55 +104,54 @@ func _update_parented_node_state():
 
 
 # Delete the previous physics node and disconnect associated signals
-func _delete_previous_physics_nodes() -> void:
+func _delete_physics_collider_nodes() -> void:
 	if physics_node_root:
-		physics_node_root.disconnect("touched_by_body", self, "_on_touched_by_body")
-		physics_node_root.disconnect(
-			"touched_by_body_with_network_id", self, "_on_touched_by_body_with_network_id"
-		)
-		physics_node_root.queue_free()
-		if physics_node_root.is_inside_tree():
-			physics_node_root.get_parent().remove_child(physics_node_root)
-	physics_node_root = null
+		for node in physics_node_root.get_children():
+			node.queue_free()
+			physics_node_root.get_parent().remove_child(node)
 
+func get_physics_node() -> Node:
+	if !physics_node_root:
+		physics_node_root = model_rigid_body_const.new()
+		physics_node_root.mass = mass
+		physics_node_root.sleeping = sleeping
+		physics_node_root.contact_monitor = true
+		physics_node_root.contacts_reported = 3
+		physics_node_root.owner_entity = get_entity_node()
+		physics_node_root.physics_material_override = physics_material
+
+		physics_node_root.set_name("Physics")
+		assert(physics_node_root.connect("body_entered", self, "_on_body_entered") == OK)
+		assert(physics_node_root.connect("touched_by_body", self, "_on_touched_by_body") == OK)
+		assert(physics_node_root.connect("touched_by_body_with_network_id", self, "_on_touched_by_body_with_network_id") == OK)
+		
+		get_entity_node().add_child(physics_node_root)
+	
+	return physics_node_root
 
 # Create a new physics node
-func _setup_physics_nodes() -> void:
-	physics_node_root = model_rigid_body_const.new()
-	physics_node_root.mass = mass
-	physics_node_root.contact_monitor = true
-	physics_node_root.contacts_reported = 3
-	physics_node_root.owner_entity = get_entity_node()
-	physics_node_root.physics_material_override = physics_material
-
-	physics_node_root.set_name("Physics")
-	if physics_node_root.connect("body_entered", self, "_on_body_entered") != OK:
-		printerr("Could not connect signal body_entered")
-	if physics_node_root.connect("touched_by_body", self, "_on_touched_by_body"):
-		printerr("Could not connect signal touched_by_body")
-	if physics_node_root.connect(
-		"touched_by_body_with_network_id", self, "_on_touched_by_body_with_network_id"
-	):
-		printerr("Could not connect signal touched_by_body_with_network_id")
-	if physics_node_root.connect("pick_up", self, "_pick_up"):
-		printerr("Could not connect signal attempt_pick_up")
-	if physics_node_root.connect("drop", self, "_drop"):
-		printerr("Could not connect signal attempt_drop")
+func _setup_physics_collider_nodes() -> void:
 	for node in physics_nodes:
 		physics_node_root.add_child(node)
-
-	get_entity_node().add_child(physics_node_root)
 
 	_update_parented_node_state()
 
 
-func _setup_model_nodes() -> bool:
-	if ._setup_model_nodes():
-		if ! Engine.is_editor_hint():
-			_delete_previous_physics_nodes()
-			_setup_physics_nodes()
-		return true
-	return false
+func get_mass() -> float:
+	return mass
+
+
+func set_mass(p_mass: float) -> void:
+	mass = p_mass
+	if physics_node_root:
+		physics_node_root.mass = mass
+
+func _update_physics_nodes() -> void:
+	if ! Engine.is_editor_hint():
+		physics_node_root = get_physics_node()
+		
+		_delete_physics_collider_nodes()
+		_setup_physics_collider_nodes()
 
 
 func _on_touched_by_body(p_body) -> void:
@@ -163,11 +164,11 @@ func _on_touched_by_body_with_network_id(p_network_id: int) -> void:
 		get_entity_node().request_to_become_master()
 
 
-func is_pickup_valid(p_attempting_pickup_controller: Node, p_id: int) -> bool:
+func is_pickup_valid(_attempting_pickup_controller: Node, _id: int) -> bool:
 	return false
 
 
-func is_drop_valid(p_attempting_pickup_controller: Node, p_id: int) -> bool:
+func is_drop_valid(_attempting_pickup_controller: Node, _id: int) -> bool:
 	return false
 
 
@@ -177,14 +178,6 @@ func is_grabbable() -> bool:
 
 func is_interactable() -> bool:
 	return true
-
-
-func _pick_up(p_attempting_pickup_controller: Node, p_id: int) -> void:
-	return
-
-
-func _drop(p_attempting_pickup_controller: Node, p_id: int, p_velocity = Vector3(0.0, 0.0, 0.0)) -> void:
-	return
 
 
 func _entity_parent_changed() -> void:
@@ -247,7 +240,11 @@ func _entity_representation_process(p_delta: float) -> void:
 
 
 func _entity_ready() -> void:
+	if ! Engine.is_editor_hint():
+		assert(connect("model_loaded", self, "_update_physics_nodes") == OK)
+	
 	._entity_ready()
+	
 	if ! Engine.is_editor_hint():
 		if _target:
 			_target.set_as_toplevel(true)

@@ -114,7 +114,7 @@ func _process_snap_turning() -> void:
 	
 	snap_turns = 0
 
-func update_physics_input(p_delta: float) -> void:
+func update_physics_input() -> void:
 	_update_head_accumulation()
 	_process_snap_turning()
 
@@ -185,7 +185,7 @@ func update_representation_input(p_delta: float) -> void:
 		_camera_controller_node.rotation_yaw = rotation_yaw
 		_camera_controller_node.rotation_pitch = rotation_pitch
 
-		_camera_controller_node.update(p_delta)
+		_camera_controller_node.update()
 
 	update_vr_camera_state()
 

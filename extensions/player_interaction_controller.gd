@@ -66,7 +66,7 @@ func _on_entity_message(p_message, p_args) -> void:
 				_player_pickup_controller_node.set_hand_entity_reference(hand_id, null)
 
 
-func update(p_entity: Entity, p_delta: float) -> void:
+func update(p_entity: Entity, _delta: float) -> void:
 	var result: Dictionary = cast_camera_interaction_ray()
 	var new_entity_ref: Reference = get_collider_entity_ref(result)
 	

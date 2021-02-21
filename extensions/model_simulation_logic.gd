@@ -15,6 +15,7 @@ var physics_nodes: Array = []
 
 var visual_node_root: Spatial = null
 
+signal model_loaded
 
 func get_model_path() -> String:
 	return VSKResourceManager.get_path_for_entity_resource(model_scene)
@@ -96,16 +97,14 @@ func _setup_render_node() -> void:
 			_render_node = null
 
 
-func _setup_model_nodes() -> bool:
+func _setup_model_nodes() -> void:
 	if nodes_are_cached() and model_scene_requires_update:
 		_setup_render_node()
 		_delete_previous_model_nodes()
 		_instantiate_scene()
 		
 		model_scene_requires_update = false
-		return true
-		
-	return false
+		emit_signal("model_loaded")
 
 
 func schedule_model_update() -> void:
