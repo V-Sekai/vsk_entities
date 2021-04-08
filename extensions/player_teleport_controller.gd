@@ -28,7 +28,7 @@ func can_teleport() -> bool:
 
 
 func check_teleport() -> void:
-	if Input.is_action_just_pressed("respawn"):
+	if InputManager.is_ingame_action_just_pressed("respawn"):
 		_respawn()
 	
 	if teleport_flag:

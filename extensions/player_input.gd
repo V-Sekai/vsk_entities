@@ -48,6 +48,7 @@ func update_movement_input(p_target_basis: Basis) -> void:
 		vertical_movement = clamp(
 			InputManager.axes_values["move_vertical"], -1.0, 1.0
 		)
+		
 	input_direction = p_target_basis.x * horizontal_movement + p_target_basis.z * vertical_movement
 	input_magnitude = clamp(Vector2(horizontal_movement, vertical_movement).length_squared(), 0.0, 1.0)
 
@@ -135,7 +136,8 @@ func update_representation_input(p_delta: float) -> void:
 	var mouse_turning_vector: Vector2 = (
 		Vector2(InputManager.axes_values["mouse_x"], InputManager.axes_values["mouse_y"])
 		* InputManager.mouse_sensitivity
-	)
+	) if InputManager.ingame_input_enabled() else Vector2()
+	
 	var controller_turning_vector: Vector2 = Vector2(
 		InputManager.axes_values["look_horizontal"], InputManager.axes_values["look_vertical"]
 	)
@@ -160,9 +162,9 @@ func update_representation_input(p_delta: float) -> void:
 		var rotation_pitch: float = _camera_controller_node.rotation_pitch
 
 		if snap_turning_enabled:
-			if Input.is_action_just_pressed("snap_left"):
+			if InputManager.is_ingame_action_just_pressed("snap_left"):
 				snap_turns -= 1
-			if Input.is_action_just_pressed("snap_right"):
+			if InputManager.is_ingame_action_just_pressed("snap_right"):
 				snap_turns += 1
 		else:
 			rotation_yaw -= input_x * p_delta * ROTATION_SCALE

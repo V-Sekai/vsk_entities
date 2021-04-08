@@ -30,6 +30,7 @@ radius = 0.4
 script = ExtResource( 1 )
 simulation_logic_node/sprint_speed = 10.0
 simulation_logic_node/walk_speed = 5.0
+simulation_logic_node/fly_speed = 10.0
 simulation_logic_node/local_player_collision = 4
 simulation_logic_node/other_player_collision = 8
 transform_notification_node_path = NodePath("TransformNotification")
@@ -62,6 +63,7 @@ _player_interaction_controller_path = NodePath("../PlayerInteractionController")
 _player_pickup_controller_path = NodePath("../PlayerPickupController")
 _player_teleport_controller_path = NodePath("../PlayerTeleportController")
 _player_nametag_path = NodePath("../TargetSmooth/Nametag")
+_collider_path = NodePath("../PlayerKinematicBody/CollisionShape")
 local_player_collision = 4
 other_player_collision = 8
 
@@ -82,7 +84,6 @@ sync_attachment = true
 [node name="NetworkTransform" type="Node" parent="PlayerNetworkLogic"]
 script = ExtResource( 18 )
 _entity_node_path = NodePath("../..")
-cached_writer_size = 0
 origin_interpolation_factor = 15.0
 rotation_interpolation_factor = 15.0
 snap_threshold = 5.0
@@ -90,7 +91,6 @@ snap_threshold = 5.0
 [node name="NetworkIKPoints" type="Node" parent="PlayerNetworkLogic"]
 script = ExtResource( 4 )
 _entity_node_path = NodePath("../..")
-cached_writer_size = 0
 ik_space_node_path = NodePath("../../TargetSmooth/Render/IKSpace")
 
 [node name="PlayerInput" type="Node" parent="."]
@@ -155,11 +155,6 @@ arm_elbow_direction_offset = 90.0
 
 [node name="Nametag" parent="TargetSmooth" instance=ExtResource( 21 )]
 visible = false
-offset_ratio = Vector2( 0.5, 0.5 )
-interactable = false
-collision_mask = 0
-collision_layer = 0
-nametag = ""
 
 [node name="Target" type="Spatial" parent="."]
 

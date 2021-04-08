@@ -33,12 +33,13 @@ func spawn_ball() -> void:
 
 
 func test_spawning() -> void:
-	var spawn_key_pressed_this_frame: bool = Input.is_key_pressed(KEY_P)
-	if !spawn_key_pressed_last_frame:
-		if spawn_key_pressed_this_frame:
-			spawn_ball()
-			
-	spawn_key_pressed_last_frame = spawn_key_pressed_this_frame
+	if InputManager.ingame_input_enabled():
+		var spawn_key_pressed_this_frame: bool = Input.is_key_pressed(KEY_P)
+		if !spawn_key_pressed_last_frame:
+			if spawn_key_pressed_this_frame:
+				spawn_ball()
+				
+		spawn_key_pressed_last_frame = spawn_key_pressed_this_frame
 
 
 func _entity_physics_process(_delta: float):

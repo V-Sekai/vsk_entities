@@ -73,7 +73,7 @@ func update(p_entity: Entity, _delta: float) -> void:
 	var current_hand_entity_ref: EntityRef = _player_pickup_controller_node.get_hand_entity_reference(hand_id)
 	
 	if current_hand_entity_ref:
-		if Input.is_action_just_pressed("grab"):
+		if InputManager.is_ingame_action_just_pressed("grab"):
 			p_entity.send_entity_message(current_hand_entity_ref,
 			"attempting_drop",
 			{
@@ -95,7 +95,7 @@ func update(p_entity: Entity, _delta: float) -> void:
 		if target_entity_ref and is_interactable:
 			# Is my hand empty?
 			if ! _player_pickup_controller_node.get_hand_entity_reference(hand_id):
-				var attempting_grab: bool = Input.is_action_just_pressed("grab")
+				var attempting_grab: bool = InputManager.is_ingame_action_just_pressed("grab")
 				if attempting_grab:
 					p_entity.send_entity_message(target_entity_ref,
 					"attempting_grab",
