@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://addons/entity_manager/entity.gd" type="Script" id=1]
 [ext_resource path="res://addons/entity_manager/transform_notification.gd" type="Script" id=2]
@@ -20,8 +20,9 @@
 [ext_resource path="res://addons/network_manager/network_transform.gd" type="Script" id=18]
 [ext_resource path="res://addons/vsk_entities/extensions/pickup_controller.gd" type="Script" id=19]
 [ext_resource path="res://addons/vsk_entities/extensions/player_teleport_controller.gd" type="Script" id=20]
-[ext_resource path="res://addons/vsk_entities/extensions/nametag.tscn" type="PackedScene" id=21]
+[ext_resource path="res://addons/vsk_entities/extensions/infotag.tscn" type="PackedScene" id=21]
 [ext_resource path="res://addons/network_manager/network_hierarchy.gd" type="Script" id=22]
+[ext_resource path="res://addons/vsk_entities/extensions/player_info_tag_controller.gd" type="Script" id=23]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.4
@@ -62,7 +63,7 @@ _player_input_path = NodePath("../PlayerInput")
 _player_interaction_controller_path = NodePath("../PlayerInteractionController")
 _player_pickup_controller_path = NodePath("../PlayerPickupController")
 _player_teleport_controller_path = NodePath("../PlayerTeleportController")
-_player_nametag_path = NodePath("../TargetSmooth/Nametag")
+_player_info_tag_controller_path = NodePath("../PlayerInfoTagController")
 _collider_path = NodePath("../PlayerKinematicBody/CollisionShape")
 local_player_collision = 4
 other_player_collision = 8
@@ -109,6 +110,11 @@ _player_pickup_controller_node_path = NodePath("../PlayerPickupController")
 [node name="PlayerTeleportController" type="Node" parent="."]
 script = ExtResource( 20 )
 
+[node name="PlayerInfoTagController" type="Node" parent="."]
+script = ExtResource( 23 )
+_player_info_tag_path = NodePath("../TargetSmooth/InfoTag")
+_camera_controller_path = NodePath("../TargetSmooth/PlayerCameraController")
+
 [node name="PlayerRPCTable" type="Node" parent="."]
 script = ExtResource( 16 )
 _entity_node_path = NodePath("..")
@@ -153,7 +159,7 @@ _avatar_display_path = NodePath("../AvatarDisplay")
 process_priority = 1
 arm_elbow_direction_offset = 90.0
 
-[node name="Nametag" parent="TargetSmooth" instance=ExtResource( 21 )]
+[node name="InfoTag" parent="TargetSmooth" instance=ExtResource( 21 )]
 visible = false
 
 [node name="Target" type="Spatial" parent="."]
@@ -176,6 +182,8 @@ shape = SubResource( 1 )
 [connection signal="transform_updated" from="PlayerNetworkLogic/NetworkTransform" to="PlayerController" method="_network_transform_update"]
 [connection signal="transform_complete" from="TargetSmooth" to="PlayerController" method="_on_target_smooth_transform_complete"]
 [connection signal="avatar_changed" from="TargetSmooth/Render/AvatarDisplay" to="TargetSmooth/Render/IKSpace" method="_on_AvatarDisplay_avatar_changed"]
+[connection signal="avatar_download_started" from="TargetSmooth/Render/AvatarDisplay" to="PlayerInfoTagController" method="_on_avatar_download_started"]
+[connection signal="avatar_load_stage" from="TargetSmooth/Render/AvatarDisplay" to="PlayerInfoTagController" method="_on_avatar_load_stage"]
 [connection signal="touched_by_body" from="PlayerKinematicBody" to="PlayerController" method="_on_touched_by_body"]
 
 [editable path="PlayerController/StateMachine"]
