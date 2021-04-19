@@ -34,3 +34,6 @@ func pick_up(_pickup_controller: Node, _hand_id: int) -> void:
 
 func drop(_pickup_controller: Node, _hand_id: int) -> void:
 	return
+
+func _integrate_forces(state):
+	pass
