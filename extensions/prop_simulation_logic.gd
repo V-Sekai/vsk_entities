@@ -1,7 +1,7 @@
 extends "model_simulation_logic.gd"
 tool
 
-const vr_constants_const = preload("res://addons/vr_manager/vr_constants.gd")
+const vr_constants_const = preload("res://addons/sar1_vr_manager/vr_constants.gd")
 
 export (AudioStreamSample) var hit_sample = null
 export (float) var hit_velocity = 0.25

@@ -1,6 +1,6 @@
 extends RigidBody
 
-const vr_constants_const = preload("res://addons/vr_manager/vr_constants.gd")
+const vr_constants_const = preload("res://addons/sar1_vr_manager/vr_constants.gd")
 
 var owner_entity: Spatial = null
 
