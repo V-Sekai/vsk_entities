@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://addons/entity_manager/entity.gd" type="Script" id=1]
 [ext_resource path="res://addons/entity_manager/transform_notification.gd" type="Script" id=2]
@@ -23,6 +23,7 @@
 [ext_resource path="res://addons/vsk_entities/extensions/infotag.tscn" type="PackedScene" id=21]
 [ext_resource path="res://addons/network_manager/network_hierarchy.gd" type="Script" id=22]
 [ext_resource path="res://addons/vsk_entities/extensions/player_info_tag_controller.gd" type="Script" id=23]
+[ext_resource path="res://addons/vsk_entities/extensions/player_hand_controller.gd" type="Script" id=24]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.4
@@ -100,6 +101,9 @@ _camera_controller_node_path = NodePath("../TargetSmooth/PlayerCameraController"
 
 [node name="PlayerPickupController" type="Node" parent="."]
 script = ExtResource( 19 )
+
+[node name="PlayerHandController" type="Node" parent="."]
+script = ExtResource( 24 )
 
 [node name="PlayerInteractionController" type="Node" parent="."]
 script = ExtResource( 15 )

@@ -1,6 +1,6 @@
 extends Node
 
-var player_controller: Node = null
+var logic_node: Node = null
 
 export (NodePath) var _player_info_tag_path: NodePath = NodePath()
 var _player_info_tag: Node = null
@@ -29,7 +29,7 @@ func _player_info_tag_visibility_updated() -> void:
 	if _player_info_tag:
 		if (VSKAvatarManager.show_nametags or load_stage != LOAD_STAGE_DONE) and \
 		(
-			!player_controller.is_entity_master() or \
+			!logic_node.is_entity_master() or \
 			(_camera_controller.camera_mode == _camera_controller.CAMERA_THIRD_PERSON)
 		):
 			_player_info_tag.show()
@@ -52,7 +52,7 @@ func _player_name_changed(p_name: String) -> void:
 func _camera_mode_changed(_camera_mode: int) -> void:
 	_player_info_tag_visibility_updated()
 
-func _master_ready() -> void:
+func _master_setup() -> void:
 	# Nametag
 	assert(VSKPlayerManager.connect("display_name_changed", self, "_player_name_changed") == OK)
 	assert(_camera_controller.connect("camera_mode_changed", self, "_camera_mode_changed") == OK)
@@ -60,7 +60,7 @@ func _master_ready() -> void:
 	_player_display_name_updated(get_network_master(), VSKPlayerManager.display_name)
 	###
 	
-func _puppet_ready() -> void:
+func _puppet_setup() -> void:
 	### Nametag ###
 	assert(VSKNetworkManager.connect("player_display_name_updated", self, "_player_display_name_updated") == OK)
 	
@@ -68,17 +68,17 @@ func _puppet_ready() -> void:
 		_player_display_name_updated(get_network_master(), VSKNetworkManager.player_display_names[get_network_master()])
 	###
 
-func setup(p_player_controller: Node) -> void:
-	player_controller = p_player_controller
+func setup(p_logic_node: Node) -> void:
+	logic_node = p_logic_node
 	
 	_player_info_tag = get_node_or_null(_player_info_tag_path)
 	_camera_controller = get_node_or_null(_camera_controller_path)
 	
 	# State machine
-	if !player_controller.is_entity_master():
-		_puppet_ready()
+	if !logic_node.is_entity_master():
+		_puppet_setup()
 	else:
-		_master_ready()
+		_master_setup()
 		
 	assert(VSKAvatarManager.connect("nametag_visibility_updated", self, "_player_info_tag_visibility_updated") == OK)
 
