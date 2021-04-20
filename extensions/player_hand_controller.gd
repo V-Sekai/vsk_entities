@@ -71,7 +71,7 @@ func _input(event):
 					print("Right Hand Pose OK Sign")
 
 func _puppet_setup() -> void:
-	pass
+	set_process_input(false)
 	
 func _master_setup() -> void:
 	left_hand_gesture_id = HAND_POSE_NEUTRAL
@@ -110,6 +110,8 @@ func _master_setup() -> void:
 		right_hand_gesture_id = HAND_POSE_VICTORY
 	elif Input.is_action_pressed("right_hand_pose_ok_sign"):
 		right_hand_gesture_id = HAND_POSE_OK_SIGN
+		
+	set_process_input(true)
 
 
 func setup(p_logic_node: Node) -> void:
