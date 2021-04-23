@@ -3,7 +3,7 @@ extends Node
 const controller_helpers_const = preload("res://addons/actor/controller_helpers.gd")
 
 const SNAP_INTERPOLATION_RATE: float = 10.0
-const ROTATION_SCALE: float = 2.5 #smooth turning feels weird when it's slow - based of MMMaellon's personal pref rn but should be a setting
+const ROTATION_SCALE: float = 4.0 # smooth turning feels weird when it's slow - based of MMMaellon's personal pref right now but should be a setting
 
 export (NodePath) var _camera_controller_node_path: NodePath = NodePath()
 onready var _camera_controller_node: Spatial = get_node_or_null(_camera_controller_node_path)
@@ -184,6 +184,10 @@ func update_representation_input(p_delta: float) -> void:
 				rotation_yaw_snap_offset = 0.0
 
 		_camera_controller_node.rotation_yaw_snap_offset = rotation_yaw_snap_offset
+		
+		# Snapping is for reducing motion sickness and interpolation works against that. Temporarily disabling it until we know why it was added
+		_camera_controller_node.rotation_yaw_snap_offset = 0
+
 		_camera_controller_node.rotation_yaw = rotation_yaw
 		_camera_controller_node.rotation_pitch = rotation_pitch
 
