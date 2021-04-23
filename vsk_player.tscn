@@ -65,6 +65,7 @@ _player_interaction_controller_path = NodePath("../PlayerInteractionController")
 _player_pickup_controller_path = NodePath("../PlayerPickupController")
 _player_teleport_controller_path = NodePath("../PlayerTeleportController")
 _player_info_tag_controller_path = NodePath("../PlayerInfoTagController")
+_player_hand_controller_path = NodePath("../PlayerHandController")
 _collider_path = NodePath("../PlayerKinematicBody/CollisionShape")
 local_player_collision = 4
 other_player_collision = 8
@@ -104,6 +105,7 @@ script = ExtResource( 19 )
 
 [node name="PlayerHandController" type="Node" parent="."]
 script = ExtResource( 24 )
+avatar_display_path = NodePath("../TargetSmooth/Render/AvatarDisplay")
 
 [node name="PlayerInteractionController" type="Node" parent="."]
 script = ExtResource( 15 )
