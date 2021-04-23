@@ -3,7 +3,7 @@ extends Node
 const controller_helpers_const = preload("res://addons/actor/controller_helpers.gd")
 
 const SNAP_INTERPOLATION_RATE: float = 10.0
-const ROTATION_SCALE: float = 1.0
+const ROTATION_SCALE: float = 2.5 #smooth turning feels weird when it's slow - based of MMMaellon's personal pref rn but should be a setting
 
 export (NodePath) var _camera_controller_node_path: NodePath = NodePath()
 onready var _camera_controller_node: Spatial = get_node_or_null(_camera_controller_node_path)
