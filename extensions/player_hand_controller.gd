@@ -61,12 +61,13 @@ func _input(event):
 					right_hand_gesture_id = VSKAvatarManager.HAND_POSE_OK_SIGN
 					print("Right Hand Pose OK Sign")
 					
-	print(left_hand_gesture_id)
-	print(right_hand_gesture_id)
-					
-	if _avatar_display and _avatar_display.avatar_node and _avatar_display.avatar_node.driver_node:
-		_avatar_display.avatar_node.driver_node.left_hand_gesture_id = left_hand_gesture_id
-		_avatar_display.avatar_node.driver_node.right_hand_gesture_id = right_hand_gesture_id
+	update_driver()
+
+func update_driver() -> void:
+	if is_network_master():
+		if _avatar_display and _avatar_display.avatar_node and _avatar_display.avatar_node.driver_node:
+			_avatar_display.avatar_node.driver_node.left_hand_gesture_id = left_hand_gesture_id
+			_avatar_display.avatar_node.driver_node.right_hand_gesture_id = right_hand_gesture_id
 
 func _puppet_setup() -> void:
 	set_process_input(false)
@@ -94,7 +95,7 @@ func _master_setup() -> void:
 
 	if Input.is_action_pressed("right_hand_pose_open"):
 		right_hand_gesture_id = VSKAvatarManager.HAND_POSE_OPEN
-	elif Input.is_action_just_pressed("right_hand_pose_neutral"):
+	elif Input.is_action_just_pressed("right _hand_pose_neutral"):
 		right_hand_gesture_id = VSKAvatarManager.HAND_POSE_NEUTRAL
 	elif Input.is_action_pressed("right_hand_pose_point"):
 		right_hand_gesture_id = VSKAvatarManager.HAND_POSE_POINT
@@ -109,10 +110,7 @@ func _master_setup() -> void:
 	elif Input.is_action_pressed("right_hand_pose_ok_sign"):
 		right_hand_gesture_id = VSKAvatarManager.HAND_POSE_OK_SIGN
 		
-	
-	if _avatar_display and _avatar_display.avatar_node and _avatar_display.avatar_node.driver_node:
-		_avatar_display.avatar_node.driver_node.left_hand_gesture_id = left_hand_gesture_id
-		_avatar_display.avatar_node.driver_node.right_hand_gesture_id = right_hand_gesture_id
+	update_driver()
 		
 	set_process_input(true)
 
