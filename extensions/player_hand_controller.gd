@@ -64,10 +64,9 @@ func _input(event):
 	update_driver()
 
 func update_driver() -> void:
-	if is_network_master():
-		if _avatar_display and _avatar_display.avatar_node and _avatar_display.avatar_node.driver_node:
-			_avatar_display.avatar_node.driver_node.left_hand_gesture_id = left_hand_gesture_id
-			_avatar_display.avatar_node.driver_node.right_hand_gesture_id = right_hand_gesture_id
+	if _avatar_display and _avatar_display.avatar_node and _avatar_display.avatar_node.driver_node:
+		_avatar_display.avatar_node.driver_node.left_hand_gesture_id = left_hand_gesture_id
+		_avatar_display.avatar_node.driver_node.right_hand_gesture_id = right_hand_gesture_id
 
 func _puppet_setup() -> void:
 	set_process_input(false)
