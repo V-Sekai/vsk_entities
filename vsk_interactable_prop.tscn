@@ -62,7 +62,6 @@ sync_attachment = true
 [node name="NetworkTransform" type="Node" parent="PropNetworkLogic"]
 script = ExtResource( 4 )
 _entity_node_path = NodePath("../..")
-cached_writer_size = 0
 origin_interpolation_factor = 15.0
 rotation_interpolation_factor = 15.0
 snap_threshold = 5.0
@@ -70,7 +69,6 @@ snap_threshold = 5.0
 [node name="NetworkModel" type="Node" parent="PropNetworkLogic"]
 script = ExtResource( 3 )
 _entity_node_path = NodePath("../..")
-cached_writer_size = 0
 
 [node name="NetworkPhysics" type="Node" parent="PropNetworkLogic"]
 script = ExtResource( 5 )

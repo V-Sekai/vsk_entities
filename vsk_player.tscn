@@ -192,6 +192,7 @@ shape = SubResource( 1 )
 [connection signal="entity_message" from="." to="PlayerInteractionController" method="_on_entity_message"]
 [connection signal="transform_changed" from="TransformNotification" to="PlayerController" method="_on_transform_changed"]
 [connection signal="transform_updated" from="PlayerNetworkLogic/NetworkTransform" to="PlayerController" method="_network_transform_update"]
+[connection signal="avatar_path_updated" from="PlayerRPCTable" to="PlayerController" method="_on_rpc_avatar_path_updated"]
 [connection signal="transform_complete" from="TargetSmooth" to="PlayerController" method="_on_target_smooth_transform_complete"]
 [connection signal="avatar_changed" from="TargetSmooth/Render/AvatarDisplay" to="TargetSmooth/Render/IKSpace" method="_on_AvatarDisplay_avatar_changed"]
 [connection signal="avatar_download_started" from="TargetSmooth/Render/AvatarDisplay" to="PlayerInfoTagController" method="_on_avatar_download_started"]
