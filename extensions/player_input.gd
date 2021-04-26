@@ -120,22 +120,9 @@ func update_physics_input() -> void:
 	_process_snap_turning()
 
 func update_representation_input(p_delta: float) -> void:
-	var x_direction: float = 1.0
-	var y_direction: float = 1.0
-
-	if InputManager.invert_look_x:
-		x_direction = -1.0
-	else:
-		x_direction = 1.0
-
-	if InputManager.invert_look_y:
-		y_direction = -1.0
-	else:
-		y_direction = 1.0
 
 	var mouse_turning_vector: Vector2 = (
 		Vector2(InputManager.axes_values["mouse_x"], InputManager.axes_values["mouse_y"])
-		* InputManager.mouse_sensitivity
 	) if InputManager.ingame_input_enabled() else Vector2()
 	
 	var controller_turning_vector: Vector2 = Vector2(
@@ -144,11 +131,11 @@ func update_representation_input(p_delta: float) -> void:
 	
 	var input_x: float = (
 		(controller_turning_vector.x + mouse_turning_vector.x)
-		* x_direction
+		* InputManager.look_x_direction
 	)
 	var input_y: float = (
 		(controller_turning_vector.y + mouse_turning_vector.y)
-		* y_direction
+		* InputManager.look_y_direction
 	)
 
 	if _camera_controller_node:
