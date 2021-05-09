@@ -59,7 +59,11 @@ func set_global_transform(p_global_transform: Transform, _p_update_physics: bool
 
 # Change the properties of the rigid body based on whether or not it is parented
 func _update_parented_node_state():
-	if get_entity_node().hierarchy_component_node.get_entity_parent():
+	var parent: Node = get_entity_node().hierarchy_component_node.get_entity_parent()
+	
+	assert(is_inside_tree())
+	
+	if parent:
 		physics_node_root.mode = RigidBody.MODE_STATIC
 		physics_node_root.collision_layer = collison_layers
 		physics_node_root.collision_mask = 0
@@ -92,15 +96,13 @@ func _update_parented_node_state():
 			_render_smooth.set_enabled(true)
 
 			_target.set_as_toplevel(true)
-			if is_inside_tree():
-				_target.transform = get_global_transform().orthonormalized()
-			else:
-				_target.transform = get_transform().orthonormalized()
-
-	# Saracen: Todo fix: weird glitches
-	#physics_node_root.transform = Transform()
-	#_target.transform = Transform()
-	#_render_smooth.transform = Transform()
+			_target.transform = get_global_transform().orthonormalized()
+				
+	# Can fix the glitches without relying on this since it can cause mild snapping?
+	_render_smooth._m_trCurr = _target.global_transform
+	_render_smooth._m_trPrev = _target.global_transform
+	_render_smooth.global_transform = _target.global_transform
+	
 
 
 # Delete the previous physics node and disconnect associated signals
