@@ -2,7 +2,7 @@
 
 [ext_resource path="res://addons/vsk_entities/extensions/info_tag.gd" type="Script" id=1]
 [ext_resource path="res://addons/vsk_menu/fonts/infotag_font.tres" type="DynamicFont" id=2]
-[ext_resource path="res://addons/canvas_plane/canvas_plane_v2.gd" type="Script" id=3]
+[ext_resource path="res://addons/canvas_plane/canvas_3d.gd" type="Script" id=3]
 [ext_resource path="res://addons/vsk_menu/fonts/infotag_progress_bar_font.tres" type="DynamicFont" id=4]
 
 [node name="InfoTag" type="Spatial"]
