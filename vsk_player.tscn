@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://addons/entity_manager/entity.gd" type="Script" id=1]
 [ext_resource path="res://addons/entity_manager/transform_notification.gd" type="Script" id=2]
@@ -25,6 +25,7 @@
 [ext_resource path="res://addons/vsk_entities/extensions/player_info_tag_controller.gd" type="Script" id=23]
 [ext_resource path="res://addons/vsk_entities/extensions/player_hand_controller.gd" type="Script" id=24]
 [ext_resource path="res://addons/vsk_entities/network/network_hands.gd" type="Script" id=25]
+[ext_resource path="res://addons/vsk_avatar/avatar_loader.gd" type="Script" id=26]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.4
@@ -36,6 +37,9 @@ simulation_logic_node/walk_speed = 5.0
 simulation_logic_node/fly_speed = 10.0
 simulation_logic_node/local_player_collision = 4
 simulation_logic_node/other_player_collision = 8
+simulation_logic_node/ik_space_path = NodePath("TargetSmooth/Render/IKSpace")
+simulation_logic_node/avatar_loader_path = NodePath("AvatarLoader")
+simulation_logic_node/avatar_display_path = NodePath("TargetSmooth/Render/AvatarDisplay")
 transform_notification_node_path = NodePath("TransformNotification")
 hierarchy_component_node_path = NodePath("HierarchyComponent")
 simulation_logic_node_path = NodePath("PlayerController")
@@ -70,6 +74,9 @@ _player_hand_controller_path = NodePath("../PlayerHandController")
 _collider_path = NodePath("../PlayerKinematicBody/CollisionShape")
 local_player_collision = 4
 other_player_collision = 8
+ik_space_path = NodePath("../TargetSmooth/Render/IKSpace")
+avatar_loader_path = NodePath("../AvatarLoader")
+avatar_display_path = NodePath("../TargetSmooth/Render/AvatarDisplay")
 
 [node name="StateMachine" parent="PlayerController" instance=ExtResource( 12 )]
 actor_controller_path = NodePath("..")
@@ -135,6 +142,9 @@ _entity_node_path = NodePath("..")
 script = ExtResource( 8 )
 _entity_node_path = NodePath("..")
 
+[node name="AvatarLoader" type="Node" parent="."]
+script = ExtResource( 26 )
+
 [node name="TargetSmooth" type="Spatial" parent="."]
 script = ExtResource( 17 )
 target = NodePath("../Target")
@@ -193,10 +203,14 @@ shape = SubResource( 1 )
 [connection signal="transform_changed" from="TransformNotification" to="PlayerController" method="_on_transform_changed"]
 [connection signal="transform_updated" from="PlayerNetworkLogic/NetworkTransform" to="PlayerController" method="_network_transform_update"]
 [connection signal="avatar_path_updated" from="PlayerRPCTable" to="PlayerController" method="_on_rpc_avatar_path_updated"]
+[connection signal="avatar_changed" from="AvatarLoader" to="TargetSmooth/Render/IKSpace" method="_on_avatar_changed"]
+[connection signal="avatar_cleared" from="AvatarLoader" to="TargetSmooth/Render/AvatarDisplay" method="_on_avatar_cleared"]
+[connection signal="avatar_download_started" from="AvatarLoader" to="PlayerInfoTagController" method="_on_avatar_download_started"]
+[connection signal="avatar_load_stage" from="AvatarLoader" to="PlayerInfoTagController" method="_on_avatar_load_stage"]
+[connection signal="avatar_ready" from="AvatarLoader" to="TargetSmooth/Render/AvatarDisplay" method="_on_avatar_ready"]
 [connection signal="transform_complete" from="TargetSmooth" to="PlayerController" method="_on_target_smooth_transform_complete"]
-[connection signal="avatar_changed" from="TargetSmooth/Render/AvatarDisplay" to="TargetSmooth/Render/IKSpace" method="_on_AvatarDisplay_avatar_changed"]
-[connection signal="avatar_download_started" from="TargetSmooth/Render/AvatarDisplay" to="PlayerInfoTagController" method="_on_avatar_download_started"]
-[connection signal="avatar_load_stage" from="TargetSmooth/Render/AvatarDisplay" to="PlayerInfoTagController" method="_on_avatar_load_stage"]
+[connection signal="avatar_setup_complete" from="TargetSmooth/Render/AvatarDisplay" to="AvatarLoader" method="_on_avatar_setup_complete"]
+[connection signal="avatar_setup_failed" from="TargetSmooth/Render/AvatarDisplay" to="AvatarLoader" method="_on_avatar_setup_failed"]
 [connection signal="touched_by_body" from="PlayerKinematicBody" to="PlayerController" method="_on_touched_by_body"]
 
 [editable path="PlayerController/StateMachine"]
