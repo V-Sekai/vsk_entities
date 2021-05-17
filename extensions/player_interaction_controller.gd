@@ -19,20 +19,25 @@ static func get_camera_interaction_entity() -> Entity:
 	return null
 
 const INTERACTABLE_ENTITY_TYPES: Array = ["InteractableProp"]
-var hand_id: int
+var hand_id: int = -1
 
 func _ready():
 	if !Engine.is_editor_hint():
 		dss = _camera_controller_node.get_world().get_direct_space_state()
 		hand_id = _player_pickup_controller_node.RIGHT_HAND_ID
 
-func cast_camera_interaction_ray() -> Dictionary:
-	var camera_global_transform = _camera_controller_node.camera.global_transform
+func cast_flat_interaction_ray() -> Dictionary:
+	var source_global_transform = Transform()
 	
-	var start: Vector3 = camera_global_transform.origin
+	if _camera_controller_node.camera_mode == _camera_controller_node.CAMERA_FIRST_PERSON:
+		source_global_transform = _camera_controller_node.camera.global_transform
+	else:
+		source_global_transform =_player_pickup_controller_node.get_head_forward_transform()
+	
+	var start: Vector3 = source_global_transform.origin
 	var end: Vector3 = (
-		camera_global_transform.origin
-		+ camera_global_transform.basis.xform(Vector3(0.0, 0.0, -interaction_distance))
+		source_global_transform.origin
+		+ source_global_transform.basis.xform(Vector3(0.0, 0.0, -interaction_distance))
 	)
 	
 	var result: Dictionary = dss.intersect_ray(start, end, [], interaction_collision)
@@ -66,10 +71,7 @@ func _on_entity_message(p_message, p_args) -> void:
 				_player_pickup_controller_node.set_hand_entity_reference(hand_id, null)
 
 
-func update(p_entity: Entity, _delta: float) -> void:
-	var result: Dictionary = cast_camera_interaction_ray()
-	var new_entity_ref: Reference = get_collider_entity_ref(result)
-	
+func update(p_entity: Entity, _delta: float) -> void:	
 	var current_hand_entity_ref: EntityRef = _player_pickup_controller_node.get_hand_entity_reference(hand_id)
 	
 	if current_hand_entity_ref:
@@ -79,29 +81,32 @@ func update(p_entity: Entity, _delta: float) -> void:
 			{
 				"grabber_entity_ref":p_entity.get_entity_ref(),
 			})
-	
-	if new_entity_ref != target_entity_ref:
-		if target_entity_ref and is_interactable:
-			strong_dependent_link = null
-			target_entity_ref = new_entity_ref
-		if new_entity_ref:
-			is_interactable = is_interactable_entity_type(new_entity_ref)
-			if is_interactable:
-				strong_dependent_link = p_entity.create_strong_exclusive_dependency_for(new_entity_ref)
-				target_entity_ref = new_entity_ref
 	else:
-		# This assumes we now have a dependency created from the previous frame
-		# so we can now interact with this object 
-		if target_entity_ref and is_interactable:
-			# Is my hand empty?
-			if ! _player_pickup_controller_node.get_hand_entity_reference(hand_id):
-				var attempting_grab: bool = InputManager.is_ingame_action_just_pressed("grab")
-				if attempting_grab:
-					p_entity.send_entity_message(target_entity_ref,
-					"attempting_grab",
-					{
-						"grabber_entity_ref":p_entity.get_entity_ref(),
-						"grabber_network_id":get_network_master(),
-						"grabber_transform":p_entity.get_attachment_node(0).global_transform,
-						"grabber_attachment_id":hand_id
-					})
+		var result: Dictionary = cast_flat_interaction_ray()
+		var new_entity_ref: Reference = get_collider_entity_ref(result)
+		
+		if new_entity_ref != target_entity_ref:
+			if target_entity_ref and is_interactable:
+				strong_dependent_link = null
+				target_entity_ref = new_entity_ref
+			if new_entity_ref:
+				is_interactable = is_interactable_entity_type(new_entity_ref)
+				if is_interactable:
+					strong_dependent_link = p_entity.create_strong_exclusive_dependency_for(new_entity_ref)
+					target_entity_ref = new_entity_ref
+		else:
+			# This assumes we now have a dependency created from the previous frame
+			# so we can now interact with this object 
+			if target_entity_ref and is_interactable:
+				# Is my hand empty?
+				if ! _player_pickup_controller_node.get_hand_entity_reference(hand_id):
+					var attempting_grab: bool = InputManager.is_ingame_action_just_pressed("grab")
+					if attempting_grab:
+						p_entity.send_entity_message(target_entity_ref,
+						"attempting_grab",
+						{
+							"grabber_entity_ref":p_entity.get_entity_ref(),
+							"grabber_network_id":get_network_master(),
+							"grabber_transform":p_entity.get_attachment_node(0).global_transform,
+							"grabber_attachment_id":hand_id
+						})
