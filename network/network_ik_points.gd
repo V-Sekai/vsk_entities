@@ -1,5 +1,5 @@
+@tool
 extends NetworkLogic
-tool
 
 const math_funcs_const = preload("res://addons/math_util/math_funcs.gd")
 
@@ -9,36 +9,36 @@ var ik_space: Node = null
 var bits: int = 0
 var transforms: Array = []
 
-export (NodePath) var ik_space_node_path = NodePath()
+@export  var ik_space_node_path : NodePath = NodePath()
 
-static func write_point_transform(p_writer: network_writer_const, p_transform: Transform) -> network_writer_const:
+static func write_point_transform(p_writer: Object, p_transform: Transform3D) -> Object: # network_writer_const
 	p_writer.put_vector3(p_transform.origin)
-	p_writer.put_quat(p_transform.basis.get_rotation_quat())
+	p_writer.put_quat(p_transform.basis.get_rotation_quaternion())
 
 	return p_writer
 
-static func write_head_transform(p_writer: network_writer_const, p_transform: Transform) -> network_writer_const:
+static func write_head_transform(p_writer: Object, p_transform: Transform3D) -> Object: # network_writer_const
 	p_writer.put_float(p_transform.origin.y)
-	p_writer.put_quat(p_transform.basis.get_rotation_quat())
+	p_writer.put_quat(p_transform.basis.get_rotation_quaternion())
 
 	return p_writer
 
-static func read_point_transform(p_reader: network_reader_const) -> Dictionary:
+static func read_point_transform(p_reader: Object) -> Dictionary:
 	var origin: Vector3 = math_funcs_const.sanitise_vec3(p_reader.get_vector3())
-	var rotation: Quat = math_funcs_const.sanitise_quat(p_reader.get_quat())
+	var rotation: Quaternion = math_funcs_const.sanitise_quat(p_reader.get_quat())
 
-	return {"reader": p_reader, "transform": Transform(Basis(rotation), origin)}
+	return {"reader": p_reader, "transform": Transform3D(Basis(rotation), origin)}
 
-static func read_head_transform(p_reader: network_reader_const) -> Dictionary:
+static func read_head_transform(p_reader: Object) -> Dictionary:
 	var origin_y: float = math_funcs_const.sanitise_float(p_reader.get_float())
-	var rotation: Quat = math_funcs_const.sanitise_quat(p_reader.get_quat())
+	var rotation: Quaternion = math_funcs_const.sanitise_quat(p_reader.get_quat())
 
 	return {
-		"reader": p_reader, "transform": Transform(Basis(rotation), Vector3(0.0, origin_y, 0.0))
+		"reader": p_reader, "transform": Transform3D(Basis(rotation), Vector3(0.0, origin_y, 0.0))
 	}
 
 
-func on_serialize(p_writer: network_writer_const, _p_initial_state: bool) -> network_writer_const:
+func on_serialize(p_writer: Object, _p_initial_state: bool) -> Object: # network_writer_const
 	bits = 0
 	
 	if ik_space and ik_space.tracker_collection_output:
@@ -109,7 +109,7 @@ func on_serialize(p_writer: network_writer_const, _p_initial_state: bool) -> net
 	return p_writer
 
 
-func on_deserialize(p_reader: network_reader_const, _p_initial_state: bool) -> network_reader_const:
+func on_deserialize(p_reader: Object, _p_initial_state: bool) -> Object: # network_reader_const
 	received_data = true
 
 	bits = p_reader.get_u8()
@@ -157,7 +157,7 @@ func on_deserialize(p_reader: network_reader_const, _p_initial_state: bool) -> n
 
 
 func _entity_ready() -> void:
-	._entity_ready()
+	super._entity_ready()
 	if ! Engine.is_editor_hint():
 		ik_space = get_node_or_null(ik_space_node_path)
 		if received_data:

@@ -1,20 +1,24 @@
+@tool
 extends "res://addons/entity_manager/node_3d_simulation_logic.gd"
-tool
 
 # const model_rigid_body_const = preload("model_rigid_body.gd")
 const model_rigid_body_const = preload("res://addons/sar1_vr_manager/components/lasso_snapping/snapping_point.gd")
 
 # Render
-export (NodePath) var _render_node_path: NodePath = NodePath() setget set_render_node_path
-var _render_node: Spatial = null
+@export var _render_node_path: NodePath = NodePath() :
+	set = set_render_node_path
 
-export (PackedScene) var model_scene: PackedScene = null setget set_packed_scene
+var _render_node: Node3D = null
+
+@export var model_scene: PackedScene = null :
+	set = set_packed_scene
+
 var model_scene_requires_update: bool = false
 
 var visual_nodes: Array = []
 var physics_nodes: Array = []
 
-var visual_node_root: Spatial = null
+var visual_node_root: Node3D = null
 
 signal model_loaded
 
@@ -27,7 +31,7 @@ func set_model_from_path(p_path: String) -> void:
 	schedule_model_update()
 
 
-func update_gizmos(p_node: Spatial) -> void:
+func update_gizmos(p_node: Node3D) -> void:
 	var cur_entity_node: Node = get_entity_node()
 	if cur_entity_node:
 		if cur_entity_node.owner == null:
@@ -67,17 +71,17 @@ func _delete_previous_model_nodes() -> void:
 
 func _instantiate_scene() -> void:
 	if model_scene:
-		var instance: Spatial = model_scene.instance()
-		if instance == null:
-			instance = Spatial.new()
-			instance.set_name("Dummy")
+		var instantiate: Node3D = model_scene.instantiate()
+		if instantiate == null:
+			instantiate = Node3D.new()
+			instantiate.set_name("Dummy")
 			
-		var model_dictionary: Dictionary = ModelFormat.build_model_trees(instance)
+		var model_dictionary: Dictionary = ModelFormat.build_model_trees(instantiate)
 		
 		visual_nodes = model_dictionary.visual
 		physics_nodes = model_dictionary.physics
 		
-		visual_node_root = Spatial.new()
+		visual_node_root = Node3D.new()
 		visual_node_root.set_name("Visual")
 		
 		if _render_node:
@@ -94,7 +98,7 @@ func _instantiate_scene() -> void:
 func _setup_render_node() -> void:
 	if has_node(_render_node_path):
 		_render_node = get_node_or_null(_render_node_path)
-		if _render_node == self or not _render_node is Spatial:
+		if _render_node == self or not _render_node is Node3D:
 			_render_node = null
 
 
@@ -115,7 +119,7 @@ func schedule_model_update() -> void:
 
 
 func _entity_ready() -> void:
-	._entity_ready()
+	super._entity_ready()
 	if ! Engine.is_editor_hint():
 		if model_scene_requires_update:
 			_setup_model_nodes()
@@ -127,7 +131,7 @@ func _ready() -> void:
 		_setup_model_nodes()
 
 
-func _threaded_instance_setup(p_instance_id: int, p_network_reader: Reference) -> void:
-	._threaded_instance_setup(p_instance_id, p_network_reader)
+func _threaded_instance_setup(p_instance_id: int, p_network_reader: RefCounted) -> void:
+	super._threaded_instance_setup(p_instance_id, p_network_reader)
 	if model_scene_requires_update:
 		_setup_model_nodes()

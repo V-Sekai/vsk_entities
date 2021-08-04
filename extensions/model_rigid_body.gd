@@ -1,22 +1,22 @@
-extends RigidBody
+extends RigidBody3D
 
 const vr_constants_const = preload("res://addons/sar1_vr_manager/vr_constants.gd")
 
-var owner_entity: Spatial = null
+var owner_entity: Node3D = null
 
 signal touched_by_body_with_network_id(p_network_id)
 signal touched_by_body(p_body)
 
 
-func touched_by_body_with_network_id(p_network_id: int) -> void:
+func send_touched_by_body_with_network_id(p_network_id: int) -> void:
 	emit_signal("touched_by_body_with_network_id", p_network_id)
 
 
-func touched_by_body(p_body) -> void:
+func send_touched_by_body(p_body) -> void:
 	emit_signal("touched_by_body", p_body)
 	
 
-func get_entity_ref() -> Reference:
+func get_entity_ref() -> RefCounted:
 	return owner_entity.get_entity_ref()
 
 

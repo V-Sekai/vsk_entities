@@ -1,7 +1,7 @@
 extends NetworkLogic
 
 
-func on_serialize(p_writer: network_writer_const, p_initial_state: bool) -> network_writer_const:
+func on_serialize(p_writer: Object, p_initial_state: bool) -> Object: # network_writer_const:
 	if p_initial_state:
 		var name: String = entity_node.simulation_logic_node.get_model_path()
 		p_writer.put_8bit_pascal_string(name, true)
@@ -9,7 +9,7 @@ func on_serialize(p_writer: network_writer_const, p_initial_state: bool) -> netw
 	return p_writer
 
 
-func on_deserialize(p_reader: network_reader_const, p_initial_state: bool) -> network_reader_const:
+func on_deserialize(p_reader: Object, p_initial_state: bool) -> Object: # network_reader_const:
 	received_data = true
 
 	if p_initial_state:
@@ -20,7 +20,8 @@ func on_deserialize(p_reader: network_reader_const, p_initial_state: bool) -> ne
 
 
 func _network_representation_process(_delta: float) -> void:
-	._network_representation_process(_delta)
+	# FIXME: Superclass does not have this function
+	pass # super._network_representation_process(_delta)
 
 
 func _ready():

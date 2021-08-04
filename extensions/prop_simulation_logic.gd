@@ -1,24 +1,24 @@
-extends "model_simulation_logic.gd"
-tool
+@tool
+extends "res://addons/vsk_entities/extensions/model_simulation_logic.gd" # model_simulation_logic.gd
 
 const vr_constants_const = preload("res://addons/sar1_vr_manager/vr_constants.gd")
 
-export (AudioStreamSample) var hit_sample = null
-export (float) var hit_velocity = 0.25
-export (PhysicsMaterial) var physics_material = null
+@export  var hit_sample : AudioStreamSample = null
+@export  var hit_velocity : float = 0.25
+@export  var physics_material : PhysicsMaterial = null
 
-export (float) var mass = 1.0
-export (int, LAYERS_3D_PHYSICS) var collison_layers: int = 1
-export (int, LAYERS_3D_PHYSICS) var collison_mask: int = 1
+@export  var mass : float = 1.0
+@export  var collison_layers: int # (int, LAYERS_3D_PHYSICS) = 1
+@export  var collison_mask: int # (int, LAYERS_3D_PHYSICS) = 1
 
 var sleeping: bool = false
 
-export (NodePath) var _render_smooth_path: NodePath = NodePath()
-export (NodePath) var _target_path: NodePath = NodePath()
-var _render_smooth: Spatial = null
-var _target: Spatial = null
+@export  var _render_smooth_path: NodePath # (NodePath) = NodePath()
+@export  var _target_path: NodePath # (NodePath) = NodePath()
+var _render_smooth: Node3D = null
+var _target: Node3D = null
 
-var physics_node_root: RigidBody = null
+var physics_node_root: RigidBody3D = null
 
 var throw_offset = Vector3(0.0, 0.0, 0.0)
 var throw_velocity = Vector3(0.0, 0.0, 0.0)
@@ -26,8 +26,8 @@ var throw_velocity = Vector3(0.0, 0.0, 0.0)
 var prev_linear_velocity_length: float = 0.0
 
 
-func _network_transform_update(p_transform: Transform) -> void:
-	._network_transform_update(p_transform)
+func _network_transform_update(p_transform: Transform3D) -> void:
+	super._network_transform_update(p_transform)
 
 	if get_entity_node().hierarchy_component_node.parent_entity_is_valid:
 		_target.transform = get_transform()
@@ -35,23 +35,23 @@ func _network_transform_update(p_transform: Transform) -> void:
 
 # Overloaded set_global_origin function which also sets the global transform of the physics node
 func set_global_origin(p_origin: Vector3, _p_update_physics: bool = false) -> void:
-	.set_global_origin(p_origin, _p_update_physics)
+	super.set_global_origin(p_origin, _p_update_physics)
 	if _p_update_physics:
 		if physics_node_root:
 			physics_node_root.set_global_transform(get_global_transform())
 
 
 # Overloaded set_transform function which also updates the global transform of the physics node
-func set_transform(p_transform: Transform, _p_update_physics: bool = false) -> void:
-	.set_transform(p_transform, _p_update_physics)
+func set_transform(p_transform: Transform3D, _p_update_physics: bool = false) -> void:
+	super.set_transform(p_transform, _p_update_physics)
 	if _p_update_physics:
 		if physics_node_root:
 			physics_node_root.set_transform(get_transform())
 
 
 # Overloaded set_global_transform function which also sets the global transform of the physics node
-func set_global_transform(p_global_transform: Transform, _p_update_physics: bool = false) -> void:
-	.set_global_transform(p_global_transform, _p_update_physics)
+func set_global_transform(p_global_transform: Transform3D, _p_update_physics: bool = false) -> void:
+	super.set_global_transform(p_global_transform, _p_update_physics)
 	if _p_update_physics:
 		if physics_node_root:
 			physics_node_root.set_global_transform(get_global_transform())
@@ -64,21 +64,21 @@ func _update_parented_node_state():
 	assert(is_inside_tree())
 	
 	if parent:
-		physics_node_root.mode = RigidBody.MODE_STATIC
+		physics_node_root.mode = RigidBody3D.MODE_STATIC
 		physics_node_root.collision_layer = collison_layers
 		physics_node_root.collision_mask = 0
 		if ! Engine.is_editor_hint():
 			physics_node_root.set_as_toplevel(false)
-			physics_node_root.set_transform(Transform())
+			physics_node_root.set_transform(Transform3D())
 
 			_render_smooth.set_as_toplevel(false)
 			_render_smooth.set_enabled(false)
-			_render_smooth.set_transform(Transform())
+			_render_smooth.set_transform(Transform3D())
 
 			_target.set_as_toplevel(false)
-			_target.transform = Transform()
+			_target.transform = Transform3D()
 	else:
-		physics_node_root.mode = RigidBody.MODE_RIGID
+		physics_node_root.mode = RigidBody3D.MODE_RIGID
 		physics_node_root.collision_layer = collison_layers
 		physics_node_root.collision_mask = collison_mask
 		if ! Engine.is_editor_hint():
@@ -123,9 +123,9 @@ func get_physics_node() -> Node:
 		physics_node_root.physics_material_override = physics_material
 
 		physics_node_root.set_name("Physics")
-		assert(physics_node_root.connect("body_entered", self, "_on_body_entered") == OK)
-		assert(physics_node_root.connect("touched_by_body", self, "_on_touched_by_body") == OK)
-		assert(physics_node_root.connect("touched_by_body_with_network_id", self, "_on_touched_by_body_with_network_id") == OK)
+		assert(physics_node_root.connect("body_entered", self._on_body_entered) == OK)
+		assert(physics_node_root.connect("touched_by_body", self._on_touched_by_body) == OK)
+		assert(physics_node_root.connect("touched_by_body_with_network_id", self._on_touched_by_body_with_network_id) == OK)
 		
 		get_entity_node().add_child(physics_node_root)
 	
@@ -183,13 +183,13 @@ func is_interactable() -> bool:
 
 
 func _entity_parent_changed() -> void:
-	._entity_parent_changed()
+	super._entity_parent_changed()
 
 	_update_parented_node_state()
 
 
 func _on_body_entered(p_body):
-	if p_body is KinematicBody or p_body is RigidBody:
+	if p_body is CharacterBody3D or p_body is RigidBody3D:
 		if p_body != physics_node_root:
 			if p_body.has_method("touched_by_body"):
 				p_body.touched_by_body(physics_node_root)
@@ -204,13 +204,13 @@ func can_transfer_master_from_session_master(_id: int) -> bool:
 
 
 func cache_nodes() -> void:
-	.cache_nodes()
+	super.cache_nodes()
 	_target = get_node_or_null(_target_path)
 	_render_smooth = get_node_or_null(_render_smooth_path)
 
 
 func _entity_physics_process(p_delta: float) -> void:
-	._entity_physics_process(p_delta)
+	super._entity_physics_process(p_delta)
 	if physics_node_root:
 		var linear_velocity: Vector3 = physics_node_root.linear_velocity
 		var linear_velocity_length: float = linear_velocity.length()
@@ -231,21 +231,21 @@ func _entity_physics_process(p_delta: float) -> void:
 
 
 func _entity_representation_process(p_delta: float) -> void:
-	._entity_representation_process(p_delta)
+	super._entity_representation_process(p_delta)
 	if physics_node_root and get_entity_node().hierarchy_component_node.get_entity_parent() == null:
 		set_transform(physics_node_root.transform)
 		if _target:
 			_target.transform = physics_node_root.transform
 	else:
 		if _target:
-			_target.transform = Transform()
+			_target.transform = Transform3D()
 
 
 func _entity_ready() -> void:
 	if ! Engine.is_editor_hint():
-		assert(connect("model_loaded", self, "_update_physics_nodes") == OK)
+		assert(connect("model_loaded", self._update_physics_nodes) == OK)
 	
-	._entity_ready()
+	super._entity_ready()
 	
 	if ! Engine.is_editor_hint():
 		if _target:
@@ -257,5 +257,5 @@ func _entity_ready() -> void:
 			_render_smooth.set_target(_render_smooth.get_path_to(_target))
 			_render_smooth.teleport()
 			
-		entity_node.hierarchy_component_node.connect("entity_parent_changed", self, "_entity_parent_changed")
+		entity_node.hierarchy_component_node.connect("entity_parent_changed", self._entity_parent_changed)
 			

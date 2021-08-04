@@ -3,7 +3,7 @@ extends NetworkLogic
 const math_funcs_const = preload("res://addons/math_util/math_funcs.gd")
 
 var hand_controller_node: Node = null
-export (NodePath) var hand_controller_node_path = NodePath()
+@export  var hand_controller_node_path : NodePath = NodePath()
 
 # Degrees
 const FINGER_BASE_MIN_PITCH = -90
@@ -23,7 +23,7 @@ func _update_hand_pose() -> void:
 		hand_controller_node.right_hand_gesture_id = (hand_pose_id >> 3) & 0x07
 		hand_controller_node.update_driver()
 
-func on_serialize(p_writer: network_writer_const, _p_initial_state: bool) -> network_writer_const:	
+func on_serialize(p_writer: Object, _p_initial_state: bool) -> Object: # network_writer_const:	
 	hand_pose_id = (
 		hand_controller_node.left_hand_gesture_id & 0x7 |
 		(hand_controller_node.right_hand_gesture_id & 0x7) << 3
@@ -34,7 +34,7 @@ func on_serialize(p_writer: network_writer_const, _p_initial_state: bool) -> net
 	return p_writer
 
 
-func on_deserialize(p_reader: network_reader_const, _p_initial_state: bool) -> network_reader_const:
+func on_deserialize(p_reader: Object, _p_initial_state: bool) -> Object: # network_reader_const:
 	received_data = true
 	
 	hand_pose_id = p_reader.get_8()
@@ -45,7 +45,7 @@ func on_deserialize(p_reader: network_reader_const, _p_initial_state: bool) -> n
 
 
 func _entity_ready() -> void:
-	._entity_ready()
+	super._entity_ready()
 	if ! Engine.is_editor_hint():
 		hand_controller_node = get_node_or_null(hand_controller_node_path)
 		if received_data:

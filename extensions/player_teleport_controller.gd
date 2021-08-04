@@ -3,7 +3,7 @@ extends Node
 var player_controller: Node = null
 
 var teleport_flag: bool = false
-var teleport_transform: Transform = Transform()
+var teleport_transform: Transform3D = Transform3D()
 
 func _respawn() -> void:
 	teleport_to(VSKNetworkManager.get_random_spawn_transform())
@@ -14,11 +14,11 @@ func check_respawn_bounds() -> void:
 		_respawn()
 
 
-func _teleport_to_internal(p_transform: Transform) -> void:
+func _teleport_to_internal(p_transform: Transform3D) -> void:
 	player_controller.set_global_transform(p_transform, true)
 
 
-func teleport_to(p_transform: Transform) -> void:
+func teleport_to(p_transform: Transform3D) -> void:
 	teleport_flag = true
 	teleport_transform = p_transform
 
@@ -41,7 +41,7 @@ func setup(p_player_controller: Node) -> void:
 	player_controller = p_player_controller
 	
 	# Teleport callback
-	var teleport:Spatial = VRManager.xr_origin.get_component_by_name("TeleportComponent")
+	var teleport:Node3D = VRManager.xr_origin.get_component_by_name("TeleportComponent")
 	if teleport:
 		teleport.assign_can_teleport_funcref(self, "can_teleport")
 		teleport.assign_teleport_callback_funcref(self, "teleport_to")

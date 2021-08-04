@@ -1,15 +1,15 @@
 extends Node
 
-const controller_helpers_const = preload("res://addons/actor/controller_helpers.gd")
+# const controller_helpers_const = preload("res://addons/actor/controller_helpers.gd")
 
 const SNAP_INTERPOLATION_RATE: float = 10.0
 const ROTATION_SCALE: float = 4.0 # smooth turning feels weird when it's slow - based of MMMaellon's personal pref right now but should be a setting
 
-export (NodePath) var _camera_controller_node_path: NodePath = NodePath()
-onready var _camera_controller_node: Spatial = get_node_or_null(_camera_controller_node_path)
+@export  var _camera_controller_node_path: NodePath # (NodePath) = NodePath()
+@onready var _camera_controller_node: Node3D = get_node_or_null(_camera_controller_node_path)
 
-export (bool) var use_head_accumulator: bool = true
-export (float) var camera_height: float = 1.8
+@export  var use_head_accumulator: bool # (bool) = true
+@export  var camera_height: float # (float) = 1.8
 
 var vr_locomotion_component: Node = null
 
@@ -23,7 +23,7 @@ var snap_turns: int = 0
 var rotation_yaw_snap_offset: float = 0.0 # radians
 
 # Head offset
-var xr_camera: ARVRCamera = null
+var xr_camera: XRCamera3D = null
 var head_offset_accumulator: Vector3 = Vector3()
 var xr_camera_previous: Vector3 = Vector3()
 var xr_camera_current: Vector3 = Vector3()
@@ -62,7 +62,7 @@ func update_vr_camera_state():
 
 
 func reset_offset() -> void:
-	ARVRServer.center_on_hmd(ARVRServer.RESET_BUT_KEEP_TILT, true)
+	XRServer.center_on_hmd(XRServer.RESET_BUT_KEEP_TILT, true)
 	if VRManager.xr_origin:
 		VRManager.xr_origin.transform.origin = Vector3()
 	xr_camera_previous = Vector3()
@@ -185,7 +185,7 @@ func update_representation_input(p_delta: float) -> void:
 
 func setup_xr_camera():
 	if VRManager.xr_origin:
-		xr_camera = VRManager.xr_origin.get_node_or_null("ARVRCamera")  # Sometimes missing (???)
+		xr_camera = VRManager.xr_origin.get_node_or_null("XRCamera")  # Sometimes missing (???)
 	else:
 		xr_camera = null
 

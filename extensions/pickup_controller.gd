@@ -1,5 +1,5 @@
+@tool
 extends Node
-tool
 
 var player_controller: Node = null
 
@@ -49,7 +49,7 @@ func clear_hand_entity_references_for_entity(p_entity: EntityRef) -> void:
 	if p_entity == right_hand_object:
 		right_hand_object = null
 
-func get_head_forward_transform() -> Transform:
+func get_head_forward_transform() -> Transform3D:
 	return player_controller.get_avatar_display().get_head_forward_transform()
 
 func get_entity_node() -> Node:

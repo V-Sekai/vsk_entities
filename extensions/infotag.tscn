@@ -21,8 +21,8 @@ billboard_mode = 2
 translucent = true
 
 [node name="Container" type="VBoxContainer" parent="Canvas"]
-margin_right = 512.0
-margin_bottom = 128.0
+offset_right = 512.0
+offset_bottom = 128.0
 rect_min_size = Vector2( 512, 128 )
 rect_clip_content = true
 __meta__ = {
@@ -30,8 +30,8 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="Canvas/Container"]
-margin_right = 512.0
-margin_bottom = 85.0
+offset_right = 512.0
+offset_bottom = 85.0
 rect_clip_content = true
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -44,39 +44,39 @@ __meta__ = {
 }
 
 [node name="ProgressBarVContainer" type="VBoxContainer" parent="Canvas/Container"]
-margin_top = 89.0
-margin_right = 512.0
-margin_bottom = 128.0
+offset_top = 89.0
+offset_right = 512.0
+offset_bottom = 128.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
 [node name="ProgressBarHContainer" type="HBoxContainer" parent="Canvas/Container/ProgressBarVContainer"]
-margin_top = 11.0
-margin_right = 512.0
-margin_bottom = 28.0
+offset_top = 11.0
+offset_right = 512.0
+offset_bottom = 28.0
 size_flags_horizontal = 3
 custom_constants/separation = 0
 alignment = 1
 
 [node name="Margin" type="Control" parent="Canvas/Container/ProgressBarVContainer/ProgressBarHContainer"]
-margin_right = 110.0
-margin_bottom = 17.0
+offset_right = 110.0
+offset_bottom = 17.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.4
 
 [node name="ProgressBar" type="ProgressBar" parent="Canvas/Container/ProgressBarVContainer/ProgressBarHContainer"]
-margin_left = 110.0
-margin_right = 387.0
-margin_bottom = 17.0
+offset_left = 110.0
+offset_right = 387.0
+offset_bottom = 17.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 4 )
 max_value = 1.0
 
 [node name="Label" type="Label" parent="Canvas/Container/ProgressBarVContainer/ProgressBarHContainer"]
-margin_left = 387.0
-margin_right = 512.0
-margin_bottom = 17.0
+offset_left = 387.0
+offset_right = 512.0
+offset_bottom = 17.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.45
 custom_fonts/font = ExtResource( 4 )

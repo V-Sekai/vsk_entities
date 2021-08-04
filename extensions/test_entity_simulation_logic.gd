@@ -1,19 +1,19 @@
+@tool
 extends "res://addons/entity_manager/node_3d_simulation_logic.gd"
-tool
 
 const interactable_prop_const = preload("res://addons/vsk_entities/vsk_interactable_prop.tscn")
 
 var spawned_balls: Array = []
 
-export (PackedScene) var spawn_model: PackedScene = null
-export (NodePath) var rpc_table: NodePath = NodePath()
+@export  var spawn_model: PackedScene # (PackedScene) = null
+@export  var rpc_table: NodePath # (NodePath) = NodePath()
 
 var spawn_key_pressed_last_frame: bool = false
 
 func spawn_ball_master(p_requester_id, _entity_callback_id: int) -> void:
 	print("Spawn ball master")
 	
-	var requester_player_entity: EntityRef = VSKNetworkManager.get_player_instance_ref(p_requester_id)
+	var requester_player_entity: RefCounted = VSKNetworkManager.get_player_instance_ref(p_requester_id) # EntityRef
 	
 	if requester_player_entity:
 		if EntityManager.spawn_entity(\
@@ -47,5 +47,5 @@ func _entity_physics_process(_delta: float):
 
 
 func _entity_ready() -> void:
-	assert(get_node(rpc_table).connect("session_master_spawn", self, "spawn_ball_master") == OK)
-	assert(get_node(rpc_table).connect("session_puppet_spawn", self, "spawn_ball_puppet") == OK)
+	assert(get_node(rpc_table).connect("session_master_spawn", self.spawn_ball_master) == OK)
+	assert(get_node(rpc_table).connect("session_puppet_spawn", self.spawn_ball_puppet) == OK)

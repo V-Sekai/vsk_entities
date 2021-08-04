@@ -1,12 +1,14 @@
-extends Spatial
-tool
+@tool
+extends Node3D
 
-export(NodePath) var nametag_label_nodepath: NodePath = NodePath()
-export(NodePath) var progress_container_nodepath: NodePath = NodePath()
-export(NodePath) var progress_bar_nodepath: NodePath = NodePath()
-export(NodePath) var progress_label_nodepath: NodePath = NodePath()
+@export var nametag_label_nodepath: NodePath # (NodePath) = NodePath()
+@export var progress_container_nodepath: NodePath # (NodePath) = NodePath()
+@export var progress_bar_nodepath: NodePath # (NodePath) = NodePath()
+@export var progress_label_nodepath: NodePath # (NodePath) = NodePath()
 
-export(String) var nametag: String = "" setget set_nametag
+@export var nametag: String = "" :
+	set = set_nametag
+
 
 func set_nametag(p_name: String) -> void:
 	nametag = p_name
