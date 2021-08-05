@@ -1,7 +1,8 @@
 @tool
 extends "res://addons/entity_manager/node_3d_simulation_logic.gd"
 
-const interactable_prop_const = preload("res://addons/vsk_entities/vsk_interactable_prop.tscn")
+# const interactable_prop_const = preload("res://addons/vsk_entities/vsk_interactable_prop.tscn")
+var interactable_prop_const = load("res://addons/vsk_entities/vsk_interactable_prop.tscn")
 
 var spawned_balls: Array = []
 
