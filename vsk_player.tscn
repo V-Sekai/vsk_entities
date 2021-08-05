@@ -1,37 +1,37 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=28 format=3 uid="uid://dvsj5yreno4fp"]
 
-[ext_resource path="res://addons/entity_manager/entity.gd" type="Script" id=1]
-[ext_resource path="res://addons/entity_manager/transform_notification.gd" type="Script" id=2]
-[ext_resource path="res://addons/actor/player_controller.gd" type="Script" id=3]
-[ext_resource path="res://addons/vsk_entities/network/network_ik_points.gd" type="Script" id=4]
-[ext_resource path="res://addons/vsk_entities/extensions/player_input.gd" type="Script" id=5]
-[ext_resource path="res://addons/network_manager/network_logic.gd" type="Script" id=6]
-[ext_resource path="res://addons/entity_manager/hierarchy_component.gd" type="Script" id=7]
-[ext_resource path="res://addons/network_manager/network_identity.gd" type="Script" id=8]
-[ext_resource path="res://addons/actor/player_camera_controller.gd" type="Script" id=9]
-[ext_resource path="res://addons/vsk_entities/extensions/player_kinematic_body.gd" type="Script" id=10]
-[ext_resource path="res://addons/extended_kinematic_body/icon_extended_kinematic_body.svg" type="Texture" id=11]
-[ext_resource path="res://addons/actor/actor_state_machine.tscn" type="PackedScene" id=12]
-[ext_resource path="res://addons/vsk_avatar/ik_space.gd" type="Script" id=13]
-[ext_resource path="res://addons/vsk_avatar/avatar_display.gd" type="Script" id=14]
-[ext_resource path="res://addons/vsk_entities/extensions/player_interaction_controller.gd" type="Script" id=15]
-[ext_resource path="res://addons/vsk_entities/extensions/player_rpc_table.gd" type="Script" id=16]
-[ext_resource path="res://addons/smoothing/smoothing.gd" type="Script" id=17]
-[ext_resource path="res://addons/network_manager/network_transform.gd" type="Script" id=18]
-[ext_resource path="res://addons/vsk_entities/extensions/pickup_controller.gd" type="Script" id=19]
-[ext_resource path="res://addons/vsk_entities/extensions/player_teleport_controller.gd" type="Script" id=20]
-[ext_resource path="res://addons/vsk_entities/extensions/infotag.tscn" type="PackedScene" id=21]
-[ext_resource path="res://addons/network_manager/network_hierarchy.gd" type="Script" id=22]
-[ext_resource path="res://addons/vsk_entities/extensions/player_info_tag_controller.gd" type="Script" id=23]
-[ext_resource path="res://addons/vsk_entities/extensions/player_hand_controller.gd" type="Script" id=24]
-[ext_resource path="res://addons/vsk_entities/network/network_hands.gd" type="Script" id=25]
-[ext_resource path="res://addons/vsk_avatar/avatar_loader.gd" type="Script" id=26]
+[ext_resource type="Script" path="res://addons/entity_manager/entity.gd" id="1"]
+[ext_resource type="Script" path="res://addons/entity_manager/transform_notification.gd" id="2"]
+[ext_resource type="Script" path="res://addons/actor/player_controller.gd" id="3"]
+[ext_resource type="Script" path="res://addons/vsk_entities/network/network_ik_points.gd" id="4"]
+[ext_resource type="Script" path="res://addons/vsk_entities/extensions/player_input.gd" id="5"]
+[ext_resource type="Script" path="res://addons/network_manager/network_logic.gd" id="6"]
+[ext_resource type="Script" path="res://addons/entity_manager/hierarchy_component.gd" id="7"]
+[ext_resource type="Script" path="res://addons/network_manager/network_identity.gd" id="8"]
+[ext_resource type="Script" path="res://addons/actor/player_camera_controller.gd" id="9"]
+[ext_resource type="Script" path="res://addons/vsk_entities/extensions/player_kinematic_body.gd" id="10"]
+[ext_resource type="Texture2D" uid="uid://dvgrbvniro76d" path="res://addons/extended_kinematic_body/icon_extended_kinematic_body.svg" id="11"]
+[ext_resource type="PackedScene" uid="uid://dtj4xwyh8jcdm" path="res://addons/actor/actor_state_machine.tscn" id="12"]
+[ext_resource type="Script" path="res://addons/vsk_avatar/ik_space.gd" id="13"]
+[ext_resource type="Script" path="res://addons/vsk_avatar/avatar_display.gd" id="14"]
+[ext_resource type="Script" path="res://addons/vsk_entities/extensions/player_interaction_controller.gd" id="15"]
+[ext_resource type="Script" path="res://addons/vsk_entities/extensions/player_rpc_table.gd" id="16"]
+[ext_resource type="Script" path="res://addons/smoothing/smoothing.gd" id="17"]
+[ext_resource type="Script" path="res://addons/network_manager/network_transform.gd" id="18"]
+[ext_resource type="Script" path="res://addons/vsk_entities/extensions/pickup_controller.gd" id="19"]
+[ext_resource type="Script" path="res://addons/vsk_entities/extensions/player_teleport_controller.gd" id="20"]
+[ext_resource type="PackedScene" uid="uid://bpxjakh1f68nw" path="res://addons/vsk_entities/extensions/infotag.tscn" id="21"]
+[ext_resource type="Script" path="res://addons/network_manager/network_hierarchy.gd" id="22"]
+[ext_resource type="Script" path="res://addons/vsk_entities/extensions/player_info_tag_controller.gd" id="23"]
+[ext_resource type="Script" path="res://addons/vsk_entities/extensions/player_hand_controller.gd" id="24"]
+[ext_resource type="Script" path="res://addons/vsk_entities/network/network_hands.gd" id="25"]
+[ext_resource type="Script" path="res://addons/vsk_avatar/avatar_loader.gd" id="26"]
 
-[sub_resource type="CapsuleShape" id=1]
+[sub_resource type="CapsuleShape3D" id="1"]
 radius = 0.4
 
-[node name="Player" type="Spatial"]
-script = ExtResource( 1 )
+[node name="Player" type="Node3D"]
+script = ExtResource( "1" )
 simulation_logic_node/sprint_speed = 10.0
 simulation_logic_node/walk_speed = 5.0
 simulation_logic_node/fly_speed = 10.0
@@ -47,15 +47,15 @@ network_identity_node_path = NodePath("NetworkIdentity")
 network_logic_node_path = NodePath("PlayerNetworkLogic")
 rpc_table_node_path = NodePath("PlayerRPCTable")
 
-[node name="TransformNotification" type="Spatial" parent="."]
-script = ExtResource( 2 )
+[node name="TransformNotification" type="Node3D" parent="."]
+script = ExtResource( "2" )
 
 [node name="HierarchyComponent" type="Node" parent="."]
-script = ExtResource( 7 )
+script = ExtResource( "7" )
 _entity_node_path = NodePath("..")
 
 [node name="PlayerController" type="Node" parent="."]
-script = ExtResource( 3 )
+script = ExtResource( "3" )
 _entity_node_path = NodePath("..")
 _entity_type = "Player"
 _extended_kinematic_body_path = NodePath("../PlayerKinematicBody")
@@ -78,86 +78,92 @@ ik_space_path = NodePath("../TargetSmooth/Render/IKSpace")
 avatar_loader_path = NodePath("../AvatarLoader")
 avatar_display_path = NodePath("../TargetSmooth/Render/AvatarDisplay")
 
-[node name="StateMachine" parent="PlayerController" instance=ExtResource( 12 )]
+[node name="StateMachine" parent="PlayerController" instance=ExtResource( "12" )]
 actor_controller_path = NodePath("..")
 
 [node name="PlayerNetworkLogic" type="Node" parent="."]
-script = ExtResource( 6 )
+script = ExtResource( "6" )
 _entity_node_path = NodePath("..")
 cached_writer_size = 256
 
 [node name="NetworkHierarchy" type="Node" parent="PlayerNetworkLogic"]
-script = ExtResource( 22 )
+script = ExtResource( "22" )
 _entity_node_path = NodePath("../..")
+cached_writer_size = 0
 sync_parent = true
 sync_attachment = true
 
 [node name="NetworkTransform" type="Node" parent="PlayerNetworkLogic"]
-script = ExtResource( 18 )
+script = ExtResource( "18" )
 _entity_node_path = NodePath("../..")
+cached_writer_size = 0
 origin_interpolation_factor = 15.0
 rotation_interpolation_factor = 15.0
 snap_threshold = 5.0
 
 [node name="NetworkIKPoints" type="Node" parent="PlayerNetworkLogic"]
-script = ExtResource( 4 )
+script = ExtResource( "4" )
 _entity_node_path = NodePath("../..")
+cached_writer_size = 0
 ik_space_node_path = NodePath("../../TargetSmooth/Render/IKSpace")
 
 [node name="NetworkHands" type="Node" parent="PlayerNetworkLogic"]
-script = ExtResource( 25 )
+script = ExtResource( "25" )
 _entity_node_path = NodePath("../..")
 hand_controller_node_path = NodePath("../../PlayerHandController")
 
 [node name="PlayerInput" type="Node" parent="."]
-script = ExtResource( 5 )
+script = ExtResource( "5" )
 _camera_controller_node_path = NodePath("../TargetSmooth/PlayerCameraController")
 
 [node name="PlayerPickupController" type="Node" parent="."]
-script = ExtResource( 19 )
+script = ExtResource( "19" )
 
 [node name="PlayerHandController" type="Node" parent="."]
-script = ExtResource( 24 )
+script = ExtResource( "24" )
 avatar_display_path = NodePath("../TargetSmooth/Render/AvatarDisplay")
 
 [node name="PlayerInteractionController" type="Node" parent="."]
-script = ExtResource( 15 )
+script = ExtResource( "15" )
 interaction_collision = 48
 _camera_controller_node_path = NodePath("../TargetSmooth/PlayerCameraController")
 _player_pickup_controller_node_path = NodePath("../PlayerPickupController")
 
 [node name="PlayerTeleportController" type="Node" parent="."]
-script = ExtResource( 20 )
+script = ExtResource( "20" )
 
 [node name="PlayerInfoTagController" type="Node" parent="."]
-script = ExtResource( 23 )
+script = ExtResource( "23" )
 _player_info_tag_path = NodePath("../TargetSmooth/InfoTag")
 _camera_controller_path = NodePath("../TargetSmooth/PlayerCameraController")
 
 [node name="PlayerRPCTable" type="Node" parent="."]
-script = ExtResource( 16 )
+script = ExtResource( "16" )
 _entity_node_path = NodePath("..")
 
 [node name="NetworkIdentity" type="Node" parent="."]
-script = ExtResource( 8 )
+script = ExtResource( "8" )
 _entity_node_path = NodePath("..")
 
 [node name="AvatarLoader" type="Node" parent="."]
-script = ExtResource( 26 )
+script = ExtResource( "26" )
 
-[node name="TargetSmooth" type="Spatial" parent="."]
-script = ExtResource( 17 )
+[node name="TargetSmooth" type="Node3D" parent="."]
+script = ExtResource( "17" )
 target = NodePath("../Target")
 flags = 3
 
-[node name="PlayerCameraController" type="Spatial" parent="TargetSmooth"]
-script = ExtResource( 9 )
+[node name="PlayerCameraController" type="Node3D" parent="TargetSmooth"]
+script = ExtResource( "9" )
+is_active = false
 camera_clip_layers = 0
 
-[node name="Render" type="Spatial" parent="TargetSmooth"]
+[node name="Render" type="Node3D" parent="TargetSmooth"]
+script = null
 
-[node name="AvatarDisplay" type="Spatial" parent="TargetSmooth/Render"]
-script = ExtResource( 14 )
+[node name="AvatarDisplay" type="Node3D" parent="TargetSmooth/Render"]
+script = ExtResource( "14" )
+shrink_mode = 0
 _ren_ik_path = NodePath("../RenIK")
 _ik_space_path = NodePath("../IKSpace")
 player_camera_controller_path = NodePath("../../PlayerCameraController")
@@ -167,9 +173,10 @@ voice_player_path = NodePath("VoicePlayer")
 [node name="VoicePlayer" type="AudioStreamPlayer3D" parent="TargetSmooth/Render/AvatarDisplay"]
 emission_angle_enabled = true
 doppler_tracking = 1
+script = null
 
-[node name="IKSpace" type="Spatial" parent="TargetSmooth/Render"]
-script = ExtResource( 13 )
+[node name="IKSpace" type="Node3D" parent="TargetSmooth/Render"]
+script = ExtResource( "13" )
 _player_input_path = NodePath("../../../PlayerInput")
 origin_interpolation_factor = 15.0
 rotation_interpolation_factor = 15.0
@@ -178,26 +185,31 @@ _ren_ik_path = NodePath("../RenIK")
 _avatar_display_path = NodePath("../AvatarDisplay")
 
 [node name="RenIK" type="RenIK" parent="TargetSmooth/Render"]
-process_priority = 1
 arm_elbow_direction_offset = 90.0
+process_priority = 1
+script = null
 
-[node name="InfoTag" parent="TargetSmooth" instance=ExtResource( 21 )]
+[node name="InfoTag" parent="TargetSmooth" instance=ExtResource( "21" )]
 visible = false
 
-[node name="Target" type="Spatial" parent="."]
+[node name="Target" type="Node3D" parent="."]
+script = null
 
-[node name="PlayerKinematicBody" type="KinematicBody" parent="."]
+[node name="PlayerKinematicBody" type="CharacterBody3D" parent="."]
 collision_layer = 0
-script = ExtResource( 10 )
+script = ExtResource( "10" )
 __meta__ = {
-"_editor_icon": ExtResource( 11 )
+"_editor_icon": ExtResource( "11" )
 }
 
-[node name="CollisionShape" type="CollisionShape" parent="PlayerKinematicBody"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.9, 0 )
-shape = SubResource( 1 )
+[node name="CollisionShape" type="CollisionShape3D" parent="PlayerKinematicBody"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.9, 0)
+shape = SubResource( "1" )
+script = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+blend_times = []
+script = null
 
 [connection signal="entity_message" from="." to="PlayerInteractionController" method="_on_entity_message"]
 [connection signal="transform_changed" from="TransformNotification" to="PlayerController" method="_on_transform_changed"]

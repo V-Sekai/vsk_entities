@@ -1,21 +1,21 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=14 format=3 uid="uid://ciytelwuu2qee"]
 
-[ext_resource path="res://addons/entity_manager/entity.gd" type="Script" id=1]
-[ext_resource path="res://addons/entity_manager/transform_notification.gd" type="Script" id=2]
-[ext_resource path="res://addons/network_manager/network_model.gd" type="Script" id=3]
-[ext_resource path="res://addons/network_manager/network_transform.gd" type="Script" id=4]
-[ext_resource path="res://addons/network_manager/network_physics.gd" type="Script" id=5]
-[ext_resource path="res://addons/network_manager/network_logic.gd" type="Script" id=6]
-[ext_resource path="res://addons/safescript/safescript_logic_container.gd" type="Script" id=7]
-[ext_resource path="res://addons/network_manager/network_identity.gd" type="Script" id=8]
-[ext_resource path="res://addons/entity_manager/hierarchy_component.gd" type="Script" id=9]
-[ext_resource path="res://addons/vsk_entities/extensions/prop_pickup_controller.gd" type="Script" id=10]
-[ext_resource path="res://addons/network_manager/network_hierarchy.gd" type="Script" id=11]
-[ext_resource path="res://addons/smoothing/smoothing.gd" type="Script" id=17]
-[ext_resource path="res://addons/vsk_entities/extensions/prop_simulation_logic.gd" type="Script" id=18]
+[ext_resource type="Script" path="res://addons/entity_manager/entity.gd" id="1"]
+[ext_resource type="Script" path="res://addons/entity_manager/transform_notification.gd" id="2"]
+[ext_resource type="Script" path="res://addons/network_manager/network_model.gd" id="3"]
+[ext_resource type="Script" path="res://addons/network_manager/network_transform.gd" id="4"]
+[ext_resource type="Script" path="res://addons/network_manager/network_physics.gd" id="5"]
+[ext_resource type="Script" path="res://addons/network_manager/network_logic.gd" id="6"]
+[ext_resource type="Script" path="res://addons/safescript/safescript_logic_container.gd" id="7"]
+[ext_resource type="Script" path="res://addons/network_manager/network_identity.gd" id="8"]
+[ext_resource type="Script" path="res://addons/entity_manager/hierarchy_component.gd" id="9"]
+[ext_resource type="Script" path="res://addons/vsk_entities/extensions/prop_pickup_controller.gd" id="10"]
+[ext_resource type="Script" path="res://addons/network_manager/network_hierarchy.gd" id="11"]
+[ext_resource type="Script" path="res://addons/smoothing/smoothing.gd" id="17"]
+[ext_resource type="Script" path="res://addons/vsk_entities/extensions/prop_simulation_logic.gd" id="18"]
 
-[node name="InteractableProp" type="Spatial"]
-script = ExtResource( 1 )
+[node name="InteractableProp" type="Node3D"]
+script = ExtResource( "1" )
 simulation_logic_node/model_scene = null
 simulation_logic_node/hit_sample = null
 simulation_logic_node/hit_velocity = 0.001
@@ -30,15 +30,15 @@ network_identity_node_path = NodePath("NetworkIdentity")
 network_logic_node_path = NodePath("PropNetworkLogic")
 rpc_table_node_path = NodePath("")
 
-[node name="TransformNotification" type="Spatial" parent="."]
-script = ExtResource( 2 )
+[node name="TransformNotification" type="Node3D" parent="."]
+script = ExtResource( "2" )
 
 [node name="HierarchyComponent" type="Node" parent="."]
-script = ExtResource( 9 )
+script = ExtResource( "9" )
 _entity_node_path = NodePath("..")
 
 [node name="PropSimulationLogic" type="Node" parent="."]
-script = ExtResource( 18 )
+script = ExtResource( "18" )
 _entity_node_path = NodePath("..")
 _entity_type = "InteractableProp"
 _render_node_path = NodePath("../RenderSmooth/Render")
@@ -49,52 +49,60 @@ _render_smooth_path = NodePath("../RenderSmooth")
 _target_path = NodePath("../Target")
 
 [node name="PropNetworkLogic" type="Node" parent="."]
-script = ExtResource( 6 )
+script = ExtResource( "6" )
 _entity_node_path = NodePath("..")
 cached_writer_size = 128
 
 [node name="NetworkHierarchy" type="Node" parent="PropNetworkLogic"]
-script = ExtResource( 11 )
+script = ExtResource( "11" )
 _entity_node_path = NodePath("../..")
+cached_writer_size = 0
 sync_parent = true
 sync_attachment = true
 
 [node name="NetworkTransform" type="Node" parent="PropNetworkLogic"]
-script = ExtResource( 4 )
+script = ExtResource( "4" )
 _entity_node_path = NodePath("../..")
+cached_writer_size = 0
 origin_interpolation_factor = 15.0
 rotation_interpolation_factor = 15.0
 snap_threshold = 5.0
 
 [node name="NetworkModel" type="Node" parent="PropNetworkLogic"]
-script = ExtResource( 3 )
+script = ExtResource( "3" )
 _entity_node_path = NodePath("../..")
+cached_writer_size = 0
 
 [node name="NetworkPhysics" type="Node" parent="PropNetworkLogic"]
-script = ExtResource( 5 )
+script = ExtResource( "5" )
 _entity_node_path = NodePath("../..")
+cached_writer_size = 0
 
 [node name="NetworkIdentity" type="Node" parent="."]
-script = ExtResource( 8 )
+script = ExtResource( "8" )
 _entity_node_path = NodePath("..")
 
 [node name="PropPickupController" type="Node" parent="."]
-script = ExtResource( 10 )
+script = ExtResource( "10" )
 _entity_node_path = NodePath("..")
 
 [node name="SafescriptLogicContainer" type="Node" parent="."]
-script = ExtResource( 7 )
+script = ExtResource( "7" )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+blend_times = []
+script = null
 
-[node name="RenderSmooth" type="Spatial" parent="."]
-script = ExtResource( 17 )
+[node name="RenderSmooth" type="Node3D" parent="."]
+script = ExtResource( "17" )
 target = NodePath("../Target")
 flags = 15
 
-[node name="Render" type="Spatial" parent="RenderSmooth"]
+[node name="Render" type="Node3D" parent="RenderSmooth"]
+script = null
 
-[node name="Target" type="Spatial" parent="."]
+[node name="Target" type="Node3D" parent="."]
+script = null
 
 [connection signal="entity_message" from="." to="PropPickupController" method="_on_entity_message"]
 [connection signal="transform_updated" from="PropNetworkLogic/NetworkTransform" to="PropSimulationLogic" method="_network_transform_update"]
