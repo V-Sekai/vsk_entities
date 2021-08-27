@@ -185,7 +185,7 @@ func update_representation_input(p_delta: float) -> void:
 
 func setup_xr_camera():
 	if VRManager.xr_origin:
-		xr_camera = VRManager.xr_origin.get_node_or_null("XRCamera")  # Sometimes missing (???)
+		xr_camera = VRManager.xr_origin.get_node_or_null("ARVRCamera")  # Sometimes missing (???)
 	else:
 		xr_camera = null
 

@@ -8,7 +8,8 @@ var is_interactable: bool = true
 @export  var interaction_distance : float = 2.0
 
 @export  var _camera_controller_node_path: NodePath # (NodePath) = NodePath()
-@onready var _camera_controller_node: Node3D = get_node_or_null(_camera_controller_node_path)
+# @onready var _camera_controller_node: Node3D = get_node_or_null(_camera_controller_node_path)
+var _camera_controller_node: Node3D = null
 
 @export  var _player_pickup_controller_node_path: NodePath # (NodePath) = NodePath()
 @onready var _player_pickup_controller_node: Node = get_node_or_null(_player_pickup_controller_node_path)
@@ -22,8 +23,11 @@ const INTERACTABLE_ENTITY_TYPES: Array = ["InteractableProp"]
 var hand_id: int = -1
 
 func _ready():
+	print("My path " + str(get_path()) + " camera_con " + str(  _camera_controller_node_path))
+	_camera_controller_node = get_node_or_null(_camera_controller_node_path)
+	print("Got a cam controller " + str(_camera_controller_node))
 	if !Engine.is_editor_hint():
-		dss = _camera_controller_node.get_world().get_direct_space_state()
+		dss = _camera_controller_node.get_world_3d().get_direct_space_state()
 		hand_id = _player_pickup_controller_node.RIGHT_HAND_ID
 
 func cast_flat_interaction_ray() -> Dictionary:
@@ -71,16 +75,19 @@ func _on_entity_message(p_message, p_args) -> void:
 				_player_pickup_controller_node.set_hand_entity_reference(hand_id, null)
 
 
+func _update_current_hand_ref(p_entity: Entity, current_hand_entity_ref: EntityRef):
+	if InputManager.is_ingame_action_just_pressed("grab"):
+		p_entity.send_entity_message(current_hand_entity_ref,
+		"attempting_drop",
+		{
+			"grabber_entity_ref":p_entity.get_entity_ref(),
+		})
+
 func update(p_entity: Entity, _delta: float) -> void:	
 	var current_hand_entity_ref: EntityRef = _player_pickup_controller_node.get_hand_entity_reference(hand_id)
 	
 	if current_hand_entity_ref:
-		if InputManager.is_ingame_action_just_pressed("grab"):
-			p_entity.send_entity_message(current_hand_entity_ref,
-			"attempting_drop",
-			{
-				"grabber_entity_ref":p_entity.get_entity_ref(),
-			})
+		_update_current_hand_ref(p_entity, current_hand_entity_ref)
 	else:
 		var result: Dictionary = cast_flat_interaction_ray()
 		var new_entity_ref: RefCounted = get_collider_entity_ref(result)

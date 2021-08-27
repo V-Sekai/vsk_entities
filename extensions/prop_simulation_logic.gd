@@ -68,21 +68,21 @@ func _update_parented_node_state():
 		physics_node_root.collision_layer = collison_layers
 		physics_node_root.collision_mask = 0
 		if ! Engine.is_editor_hint():
-			physics_node_root.set_as_toplevel(false)
+			physics_node_root.set_as_top_level(false)
 			physics_node_root.set_transform(Transform3D())
 
-			_render_smooth.set_as_toplevel(false)
+			_render_smooth.set_as_top_level(false)
 			_render_smooth.set_enabled(false)
 			_render_smooth.set_transform(Transform3D())
 
-			_target.set_as_toplevel(false)
+			_target.set_as_top_level(false)
 			_target.transform = Transform3D()
 	else:
-		physics_node_root.mode = RigidBody3D.MODE_RIGID
+		physics_node_root.mode = RigidBody3D.MODE_DYNAMIC
 		physics_node_root.collision_layer = collison_layers
 		physics_node_root.collision_mask = collison_mask
 		if ! Engine.is_editor_hint():
-			physics_node_root.set_as_toplevel(true)
+			physics_node_root.set_as_top_level(true)
 
 			# Reset velocity
 			physics_node_root.linear_velocity = Vector3()
@@ -92,10 +92,10 @@ func _update_parented_node_state():
 			throw_velocity = Vector3()
 			throw_offset = Vector3()
 
-			_render_smooth.set_as_toplevel(true)
+			_render_smooth.set_as_top_level(true)
 			_render_smooth.set_enabled(true)
 
-			_target.set_as_toplevel(true)
+			_target.set_as_top_level(true)
 			_target.transform = get_global_transform().orthonormalized()
 				
 	# Can fix the glitches without relying on this since it can cause mild snapping?
@@ -112,7 +112,7 @@ func _delete_physics_collider_nodes() -> void:
 			node.queue_free()
 			physics_node_root.get_parent().remove_child(node)
 
-func get_physics_node() -> Node:
+func get_physics_node() -> RigidBody3D:
 	if !physics_node_root:
 		physics_node_root = model_rigid_body_const.new()
 		physics_node_root.mass = mass
@@ -249,11 +249,11 @@ func _entity_ready() -> void:
 	
 	if ! Engine.is_editor_hint():
 		if _target:
-			_target.set_as_toplevel(true)
+			_target.set_as_top_level(true)
 			_target.global_transform = get_entity_node().global_transform
 
 		if _render_smooth:
-			_render_smooth.set_as_toplevel(true)
+			_render_smooth.set_as_top_level(true)
 			_render_smooth.set_target(_render_smooth.get_path_to(_target))
 			_render_smooth.teleport()
 			
