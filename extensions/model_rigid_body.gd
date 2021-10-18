@@ -1,4 +1,4 @@
-extends RigidBody3D
+extends RigidDynamicBody3D
 
 const vr_constants_const = preload("res://addons/sar1_vr_manager/vr_constants.gd")
 

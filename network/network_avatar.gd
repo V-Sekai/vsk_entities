@@ -14,7 +14,7 @@ func on_deserialize(p_reader: Object, p_initial_state: bool) -> Object: # networ
 
 	if p_initial_state:
 		var name: String = p_reader.get_8bit_pascal_string(true)
-		entity_node.simulation_logic_node._player_avatar_path_updated(get_network_master(), name)
+		entity_node.simulation_logic_node._player_avatar_path_updated(get_multiplayer_authority(), name)
 
 	return p_reader
 

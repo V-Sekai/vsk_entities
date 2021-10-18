@@ -39,14 +39,14 @@ func _player_info_tag_visibility_updated() -> void:
 		_player_info_tag.show_progress(load_stage != LOAD_STAGE_DONE)
 
 func _player_display_name_updated(p_network_id: int, p_name: String) -> void:
-	if p_network_id == get_network_master():
+	if p_network_id == get_multiplayer_authority():
 		if _player_info_tag:
 			_player_info_tag.set_nametag(p_name)
 			
 			_player_info_tag_visibility_updated()
 
 func _player_name_changed(p_name: String) -> void:
-	_player_display_name_updated(get_network_master(), p_name)
+	_player_display_name_updated(get_multiplayer_authority(), p_name)
 
 func _camera_mode_changed(_camera_mode: int) -> void:
 	_player_info_tag_visibility_updated()
@@ -56,15 +56,15 @@ func _master_setup() -> void:
 	assert(VSKPlayerManager.connect("display_name_changed", self._player_name_changed) == OK)
 	assert(_camera_controller.connect("camera_mode_changed", self._camera_mode_changed) == OK)
 	
-	_player_display_name_updated(get_network_master(), VSKPlayerManager.display_name)
+	_player_display_name_updated(get_multiplayer_authority(), VSKPlayerManager.display_name)
 	###
 	
 func _puppet_setup() -> void:
 	### Nametag ###
 	assert(VSKNetworkManager.connect("player_display_name_updated", self._player_display_name_updated) == OK)
 	
-	if VSKNetworkManager.player_display_names.has(get_network_master()):
-		_player_display_name_updated(get_network_master(), VSKNetworkManager.player_display_names[get_network_master()])
+	if VSKNetworkManager.player_display_names.has(get_multiplayer_authority()):
+		_player_display_name_updated(get_multiplayer_authority(), VSKNetworkManager.player_display_names[get_multiplayer_authority()])
 	###
 
 func setup(p_logic_node: Node) -> void:

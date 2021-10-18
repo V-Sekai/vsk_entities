@@ -115,7 +115,7 @@ func update(p_entity: Entity, _delta: float) -> void:
 						"attempting_grab",
 						{
 							"grabber_entity_ref":p_entity.get_entity_ref(),
-							"grabber_network_id":get_network_master(),
+							"grabber_network_id":get_multiplayer_authority(),
 							"grabber_transform":p_entity.get_attachment_node(0).global_transform,
 							"grabber_attachment_id":hand_id
 						})

@@ -29,7 +29,7 @@ var xr_camera_previous: Vector3 = Vector3()
 var xr_camera_current: Vector3 = Vector3()
 
 func _ready():
-	if !Engine.is_editor_hint() and is_network_authority():
+	if !Engine.is_editor_hint() and is_multiplayer_authority():
 		if VRManager.xr_origin:
 			vr_locomotion_component = VRManager.xr_origin.get_component_by_name("LocomotionComponent")
 		else:

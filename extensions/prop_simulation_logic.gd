@@ -18,7 +18,7 @@ var sleeping: bool = false
 var _render_smooth: Node3D = null
 var _target: Node3D = null
 
-var physics_node_root: RigidBody3D = null
+var physics_node_root: RigidDynamicBody3D = null
 
 var throw_offset = Vector3(0.0, 0.0, 0.0)
 var throw_velocity = Vector3(0.0, 0.0, 0.0)
@@ -64,7 +64,7 @@ func _update_parented_node_state():
 	assert(is_inside_tree())
 	
 	if parent:
-		physics_node_root.mode = RigidBody3D.MODE_STATIC
+		physics_node_root.mode = RigidDynamicBody3D.MODE_STATIC
 		physics_node_root.collision_layer = collison_layers
 		physics_node_root.collision_mask = 0
 		if ! Engine.is_editor_hint():
@@ -78,7 +78,7 @@ func _update_parented_node_state():
 			_target.set_as_top_level(false)
 			_target.transform = Transform3D()
 	else:
-		physics_node_root.mode = RigidBody3D.MODE_DYNAMIC
+		physics_node_root.mode = RigidDynamicBody3D.MODE_DYNAMIC
 		physics_node_root.collision_layer = collison_layers
 		physics_node_root.collision_mask = collison_mask
 		if ! Engine.is_editor_hint():
@@ -112,7 +112,7 @@ func _delete_physics_collider_nodes() -> void:
 			node.queue_free()
 			physics_node_root.get_parent().remove_child(node)
 
-func get_physics_node() -> RigidBody3D:
+func get_physics_node() -> RigidDynamicBody3D:
 	if !physics_node_root:
 		physics_node_root = model_rigid_body_const.new()
 		physics_node_root.mass = mass
@@ -158,7 +158,7 @@ func _update_physics_nodes() -> void:
 
 func _on_touched_by_body(p_body) -> void:
 	if p_body.has_method("touched_by_body_with_network_id"):
-		p_body.touched_by_body_with_network_id(get_network_master())
+		p_body.touched_by_body_with_network_id(get_multiplayer_authority())
 
 
 func _on_touched_by_body_with_network_id(p_network_id: int) -> void:
@@ -189,7 +189,7 @@ func _entity_parent_changed() -> void:
 
 
 func _on_body_entered(p_body):
-	if p_body is CharacterBody3D or p_body is RigidBody3D:
+	if p_body is CharacterBody3D or p_body is RigidDynamicBody3D:
 		if p_body != physics_node_root:
 			if p_body.has_method("touched_by_body"):
 				p_body.touched_by_body(physics_node_root)
