@@ -64,7 +64,7 @@ func _update_parented_node_state():
 	assert(is_inside_tree())
 	
 	if parent:
-		physics_node_root.mode = RigidDynamicBody3D.MODE_STATIC
+		physics_node_root.freeze = true
 		physics_node_root.collision_layer = collison_layers
 		physics_node_root.collision_mask = 0
 		if ! Engine.is_editor_hint():
@@ -78,7 +78,7 @@ func _update_parented_node_state():
 			_target.set_as_top_level(false)
 			_target.transform = Transform3D()
 	else:
-		physics_node_root.mode = RigidDynamicBody3D.MODE_DYNAMIC
+		physics_node_root.freeze = false
 		physics_node_root.collision_layer = collison_layers
 		physics_node_root.collision_mask = collison_mask
 		if ! Engine.is_editor_hint():
