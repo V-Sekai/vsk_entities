@@ -71,7 +71,7 @@ func reset_offset() -> void:
 
 # Return the origin offset translated by the entity orientation
 func transform_origin_offset(p_offset: Vector3) -> Vector3:
-	var camera_yaw_basis: Basis = Basis(
+	var camera_yaw_basis: Basis = Basis.from_euler(
 		Vector3(0.0, _camera_controller_node.transform.basis.get_euler().y, 0.0)
 	)
 	var offset_accumulator_transformed: Vector3 = (
