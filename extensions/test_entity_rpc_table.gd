@@ -5,7 +5,7 @@ signal session_puppet_spawn(p_entity_callback_id)
 
 @rpc(any_peer) func spawn_ball(p_entity_callback_id) -> void:
 	if NetworkManager.is_session_master():
-		emit_signal("session_master_spawn", get_rpc_sender_id(), p_entity_callback_id)
+		emit_signal("session_master_spawn", get_remote_sender_id(), p_entity_callback_id)
 	else:
-		if get_rpc_sender_id() == NetworkManager.get_current_peer_id():
+		if get_remote_sender_id() == NetworkManager.get_current_peer_id():
 			emit_signal("session_puppet_spawn", p_entity_callback_id)
