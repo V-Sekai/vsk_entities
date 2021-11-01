@@ -97,7 +97,7 @@ func _master_setup() -> void:
 
 	if Input.is_action_pressed("right_hand_pose_open"):
 		right_hand_gesture_id = avatar_manager.HAND_POSE_OPEN
-	elif Input.is_action_just_pressed("right _hand_pose_neutral"):
+	elif Input.is_action_just_pressed("right_hand_pose_neutral"):
 		right_hand_gesture_id = avatar_manager.HAND_POSE_NEUTRAL
 	elif Input.is_action_pressed("right_hand_pose_point"):
 		right_hand_gesture_id = avatar_manager.HAND_POSE_POINT
