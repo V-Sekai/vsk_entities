@@ -43,8 +43,11 @@ func cast_flat_interaction_ray() -> Dictionary:
 		source_global_transform.origin
 		+ source_global_transform.basis*(Vector3(0.0, 0.0, -interaction_distance))
 	)
-	
-	var result: Dictionary = dss.intersect_ray(start, end, [], interaction_collision)
+	var param : PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.new()
+	param.from = start
+	param.to = end
+	param.collision_mask = interaction_collision
+	var result: Dictionary = dss.intersect_ray(param)
 	return result
 
 func is_interactable_entity_type(p_entity_ref: EntityRef) -> bool:
