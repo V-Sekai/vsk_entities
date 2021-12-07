@@ -27,6 +27,8 @@ func get_model_path() -> String:
 
 
 func set_model_from_path(p_path: String) -> void:
+	if p_path.is_empty():
+		return
 	model_scene = VSKResourceManager.get_entity_resource_for_path(p_path)
 	schedule_model_update()
 
