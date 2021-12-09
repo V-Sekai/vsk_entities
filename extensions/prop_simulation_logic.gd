@@ -25,13 +25,11 @@ var throw_velocity = Vector3(0.0, 0.0, 0.0)
 
 var prev_linear_velocity_length: float = 0.0
 
-
 func _network_transform_update(p_transform: Transform3D) -> void:
 	super._network_transform_update(p_transform)
 
 	if get_entity_node().hierarchy_component_node.parent_entity_is_valid:
 		_target.transform = get_transform()
-
 
 # Overloaded set_global_origin function which also sets the global transform of the physics node
 func set_global_origin(p_origin: Vector3, _p_update_physics: bool = false) -> void:
