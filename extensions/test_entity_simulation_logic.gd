@@ -14,7 +14,7 @@ var spawn_key_pressed_last_frame: bool = false
 func spawn_ball_master(p_requester_id, _entity_callback_id: int) -> void:
 	print("Spawn ball master")
 	
-	var requester_player_entity: RefCounted = NetworkManager.get_player_instance_ref(p_requester_id) # EntityRef
+	var requester_player_entity: RefCounted = VSKNetworkManager.get_player_instance_ref(p_requester_id) # EntityRef
 	
 	if requester_player_entity:
 		if EntityManager.spawn_entity(\

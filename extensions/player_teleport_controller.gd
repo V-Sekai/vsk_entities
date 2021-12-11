@@ -6,7 +6,7 @@ var teleport_flag: bool = false
 var teleport_transform: Transform3D = Transform3D()
 
 func _respawn() -> void:
-	teleport_to(NetworkManager.get_random_spawn_transform())
+	teleport_to(VSKNetworkManager.get_random_spawn_transform())
 
 
 func check_respawn_bounds() -> void:

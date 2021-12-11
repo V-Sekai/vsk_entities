@@ -61,10 +61,10 @@ func _master_setup() -> void:
 	
 func _puppet_setup() -> void:
 	### Nametag ###
-	assert(NetworkManager.connect("player_display_name_updated", self._player_display_name_updated) == OK)
+	assert(VSKNetworkManager.connect("player_display_name_updated", self._player_display_name_updated) == OK)
 	
-	if NetworkManager.player_display_names.has(get_multiplayer_authority()):
-		_player_display_name_updated(get_multiplayer_authority(), NetworkManager.player_display_names[get_multiplayer_authority()])
+	if VSKNetworkManager.player_display_names.has(get_multiplayer_authority()):
+		_player_display_name_updated(get_multiplayer_authority(), VSKNetworkManager.player_display_names[get_multiplayer_authority()])
 	###
 
 func setup(p_logic_node: Node) -> void:
