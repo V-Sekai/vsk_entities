@@ -160,7 +160,7 @@ func _on_touched_by_body(p_body) -> void:
 
 
 func _on_touched_by_body_with_network_id(p_network_id: int) -> void:
-	if VSKNetworkManager.get_current_peer_id() == p_network_id:
+	if NetworkManager.get_current_peer_id() == p_network_id:
 		get_entity_node().request_to_become_master()
 
 
