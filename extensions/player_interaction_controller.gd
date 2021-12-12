@@ -47,6 +47,8 @@ func cast_flat_interaction_ray() -> Dictionary:
 	param.from = start
 	param.to = end
 	param.collision_mask = interaction_collision
+	if not dss:
+		return Dictionary()
 	var result: Dictionary = dss.intersect_ray(param)
 	return result
 
