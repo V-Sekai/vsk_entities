@@ -4,7 +4,7 @@ var strong_dependent_link: StrongExclusiveEntityDependencyHandle = null
 var target_entity_ref: RefCounted = null
 var is_interactable: bool = true
 
-@export var interaction_collision: int # (int, LAYERS_3D_PHYSICS) = 0
+@export_flags_3d_physics var interaction_collision: int = 0
 @export var interaction_distance : float = 2.0
 
 @export var _camera_controller_node_path: NodePath = NodePath()

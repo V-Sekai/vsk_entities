@@ -8,8 +8,8 @@ const vr_constants_const = preload("res://addons/sar1_vr_manager/vr_constants.gd
 @export var physics_material : PhysicsMaterial = null
 
 @export var mass : float = 1.0
-@export var collison_layers: int # (int, LAYERS_3D_PHYSICS) = 1
-@export var collison_mask: int # (int, LAYERS_3D_PHYSICS) = 1
+@export_flags_3d_physics var collison_layers: int = 1
+@export_flags_3d_physics var collison_mask: int = 1
 
 var sleeping: bool = false
 
