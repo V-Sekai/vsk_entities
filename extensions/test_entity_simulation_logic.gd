@@ -6,8 +6,8 @@ var interactable_prop_const = load("res://addons/vsk_entities/vsk_interactable_p
 
 var spawned_balls: Array = []
 
-@export  var spawn_model: PackedScene # (PackedScene) = null
-@export  var rpc_table: NodePath # (NodePath) = NodePath()
+@export var spawn_model: PackedScene # (PackedScene) = null
+@export var rpc_table: NodePath = NodePath()
 
 var spawn_key_pressed_last_frame: bool = false
 

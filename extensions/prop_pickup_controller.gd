@@ -1,6 +1,6 @@
 extends Node
 
-@export  var _entity_node_path: NodePath # (NodePath) = NodePath()
+@export var _entity_node_path: NodePath = NodePath()
 @onready var _entity_node: Node = get_node_or_null(_entity_node_path)
 
 func _on_attempt_grab(p_args: Dictionary) -> void:

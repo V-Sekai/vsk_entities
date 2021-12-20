@@ -2,10 +2,10 @@ extends Node
 
 var logic_node: Node = null
 
-@export  var _player_info_tag_path: NodePath # (NodePath) = NodePath()
+@export var _player_info_tag_path: NodePath = NodePath()
 var _player_info_tag: Node = null
 
-@export  var _camera_controller_path: NodePath # (NodePath) = NodePath()
+@export var _camera_controller_path: NodePath = NodePath()
 var _camera_controller: Node = null
 
 const LOAD_STAGE_DONE=0

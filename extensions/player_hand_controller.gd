@@ -3,7 +3,7 @@ extends Node
 var logic_node: Node = null
 
 var _avatar_display: Node = null
-@export var avatar_display_path: NodePath # (NodePath) = NodePath()
+@export var avatar_display_path: NodePath = NodePath()
 
 var left_hand_gesture_id: int = 0
 var right_hand_gesture_id: int = 0

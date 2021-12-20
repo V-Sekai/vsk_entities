@@ -9,7 +9,7 @@ var ik_space: Node = null
 var bits: int = 0
 var transforms: Array = []
 
-@export  var ik_space_node_path : NodePath = NodePath()
+@export var ik_space_node_path : NodePath = NodePath()
 
 static func write_point_transform(p_writer: Object, p_transform: Transform3D) -> Object: # network_writer_const
 	p_writer.put_vector3(p_transform.origin)

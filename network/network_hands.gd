@@ -3,7 +3,7 @@ extends NetworkLogic
 const math_funcs_const = preload("res://addons/math_util/math_funcs.gd")
 
 var hand_controller_node: Node = null
-@export  var hand_controller_node_path : NodePath = NodePath()
+@export var hand_controller_node_path : NodePath = NodePath()
 
 # Degrees
 const FINGER_BASE_MIN_PITCH = -90

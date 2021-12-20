@@ -1,10 +1,10 @@
 @tool
 extends Node3D
 
-@export var nametag_label_nodepath: NodePath # (NodePath) = NodePath()
-@export var progress_container_nodepath: NodePath # (NodePath) = NodePath()
-@export var progress_bar_nodepath: NodePath # (NodePath) = NodePath()
-@export var progress_label_nodepath: NodePath # (NodePath) = NodePath()
+@export var nametag_label_nodepath: NodePath = NodePath()
+@export var progress_container_nodepath: NodePath = NodePath()
+@export var progress_bar_nodepath: NodePath = NodePath()
+@export var progress_label_nodepath: NodePath = NodePath()
 
 @export var nametag: String = "" :
 	set = set_nametag
