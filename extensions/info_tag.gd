@@ -15,7 +15,6 @@ func set_nametag(p_name: String) -> void:
 	var nametag_label: Label = get_node_or_null(nametag_label_nodepath)
 	if nametag_label:
 		nametag_label.set_text(nametag)
-		$Canvas.set_dirty_flag()
 		
 func show_nametag(p_show_show: bool) -> void:
 	var nametag_label: Label = get_node_or_null(nametag_label_nodepath)
@@ -24,8 +23,6 @@ func show_nametag(p_show_show: bool) -> void:
 			nametag_label.show()
 		else:
 			nametag_label.hide()
-			
-		$Canvas.set_dirty_flag()
 		
 func show_progress(p_should_show: bool) -> void:
 	var progress_container: Control = get_node_or_null(progress_container_nodepath)
