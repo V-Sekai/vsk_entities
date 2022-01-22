@@ -125,14 +125,14 @@ func get_physics_node() -> RigidDynamicBody3D:
 		assert(physics_node_root.connect("touched_by_body", self._on_touched_by_body) == OK)
 		assert(physics_node_root.connect("touched_by_body_with_network_id", self._on_touched_by_body_with_network_id) == OK)
 		
-		get_entity_node().add_child(physics_node_root)
+		get_entity_node().add_child(physics_node_root, true)
 	
 	return physics_node_root
 
 # Create a new physics node
 func _setup_physics_collider_nodes() -> void:
 	for node in physics_nodes:
-		physics_node_root.add_child(node)
+		physics_node_root.add_child(node, true)
 
 	_update_parented_node_state()
 

@@ -87,10 +87,10 @@ func _instantiate_scene() -> void:
 		visual_node_root.set_name("Visual")
 		
 		if _render_node:
-			_render_node.add_child(visual_node_root)
+			_render_node.add_child(visual_node_root, true)
 			for visual_node in visual_nodes:
 				visual_node.set_layer_mask(1 << 2)
-				visual_node_root.add_child(visual_node)
+				visual_node_root.add_child(visual_node, true)
 				visual_node.set_owner(visual_node_root)
 				
 		if Engine.is_editor_hint():
