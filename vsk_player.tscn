@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://dvsj5yreno4fp"]
+[gd_scene load_steps=28 format=3 uid="uid://cdfhmtsks1t0c"]
 
 [ext_resource type="Script" path="res://addons/entity_manager/entity.gd" id="1"]
 [ext_resource type="Script" path="res://addons/entity_manager/transform_notification.gd" id="2"]
@@ -9,7 +9,7 @@
 [ext_resource type="Script" path="res://addons/entity_manager/hierarchy_component.gd" id="7"]
 [ext_resource type="Script" path="res://addons/network_manager/network_identity.gd" id="8"]
 [ext_resource type="Script" path="res://addons/actor/player_camera_controller.gd" id="9"]
-[ext_resource type="Script" path="res://addons/vsk_entities/extensions/player_kinematic_body.gd" id="10"]
+[ext_resource type="Script" path="res://addons/vsk_entities/extensions/player_character_body_3d.gd" id="10"]
 [ext_resource type="Texture2D" uid="uid://dvgrbvniro76d" path="res://addons/extended_kinematic_body/icon_extended_kinematic_body.svg" id="11"]
 [ext_resource type="PackedScene" uid="uid://dtj4xwyh8jcdm" path="res://addons/actor/actor_state_machine.tscn" id="12"]
 [ext_resource type="Script" path="res://addons/vsk_avatar/ik_space.gd" id="13"]
@@ -38,14 +38,6 @@ simulation_logic_node_path = NodePath("PlayerController")
 network_identity_node_path = NodePath("NetworkIdentity")
 network_logic_node_path = NodePath("PlayerNetworkLogic")
 rpc_table_node_path = NodePath("PlayerRPCTable")
-simulation_logic_node/sprint_speed = 10.0
-simulation_logic_node/walk_speed = 5.0
-simulation_logic_node/fly_speed = 10.0
-simulation_logic_node/local_player_collision = 4
-simulation_logic_node/other_player_collision = 8
-simulation_logic_node/ik_space_path = NodePath("../TargetSmooth/Render/IKSpace")
-simulation_logic_node/avatar_loader_path = NodePath("../AvatarLoader")
-simulation_logic_node/avatar_display_path = NodePath("../TargetSmooth/Render/AvatarDisplay")
 transform_notification_node_path = NodePath("TransformNotification")
 hierarchy_component_node_path = NodePath("HierarchyComponent")
 simulation_logic_node_path = NodePath("PlayerController")
@@ -64,7 +56,7 @@ _entity_node_path = NodePath("..")
 script = ExtResource( "3" )
 _entity_node_path = NodePath("..")
 _entity_type = "Player"
-_extended_kinematic_body_path = NodePath("../PlayerKinematicBody")
+_extended_kinematic_body_path = NodePath("../PlayerCharacterBody")
 _state_machine_path = NodePath("StateMachine")
 _third_person_render_node_path = NodePath("../TargetSmooth/Render/AvatarDisplay")
 _render_node_path = NodePath("../TargetSmooth/Render")
@@ -77,12 +69,13 @@ _player_pickup_controller_path = NodePath("../PlayerPickupController")
 _player_teleport_controller_path = NodePath("../PlayerTeleportController")
 _player_info_tag_controller_path = NodePath("../PlayerInfoTagController")
 _player_hand_controller_path = NodePath("../PlayerHandController")
-_collider_path = NodePath("../PlayerKinematicBody/CollisionShape")
+_collider_path = NodePath("../PlayerCharacterBody/CollisionShape")
 local_player_collision = 4
 other_player_collision = 8
 ik_space_path = NodePath("../TargetSmooth/Render/IKSpace")
 avatar_loader_path = NodePath("../AvatarLoader")
 avatar_display_path = NodePath("../TargetSmooth/Render/AvatarDisplay")
+_character_body_path = NodePath("../PlayerCharacterBody")
 
 [node name="StateMachine" parent="PlayerController" instance=ExtResource( "12" )]
 actor_controller_path = NodePath("..")
@@ -152,6 +145,7 @@ _entity_node_path = NodePath("..")
 script = ExtResource( "26" )
 
 [node name="TargetSmooth" type="Node3D" parent="."]
+editor_description = "This node provides framerate indepedent interpolation of the visual representation of the character. Would ideally like to replace this with an engine implementation, but need more info into how far along that is."
 script = ExtResource( "17" )
 target = NodePath("../Target")
 flags = 3
@@ -162,6 +156,7 @@ script = ExtResource( "9" )
 [node name="Render" type="Node3D" parent="TargetSmooth"]
 
 [node name="AvatarDisplay" type="Node3D" parent="TargetSmooth/Render"]
+editor_description = "This is the container node for our actual avatar."
 script = ExtResource( "14" )
 shrink_mode = 0
 _ren_ik_path = NodePath("../RenIK")
@@ -192,14 +187,18 @@ visible = false
 
 [node name="Target" type="Node3D" parent="."]
 
-[node name="PlayerKinematicBody" type="CharacterBody3D" parent="."]
+[node name="PlayerCharacterBody" type="CharacterBody3D" parent="."]
+editor_description = "Mostly a vanilla configuration of the new Godot CharacterBody3D, but with a fairly high tolerance for maximum slopes, higher than I would like, but seems to be fairly reliable for stairs. Would like to lower this, but I think in order for it to work, new functionality would have to be added to the API to support stuff like snapping raycasts and callbacks for the size of individual face collisions in order to avoid snagging on tiny outcrops. For now though, should be 'good enough'."
 collision_layer = 0
+floor_constant_speed = true
+floor_max_angle = 1.15192
+floor_snap_length = 0.2
 script = ExtResource( "10" )
 __meta__ = {
 "_editor_icon": ExtResource( "11" )
 }
 
-[node name="CollisionShape" type="CollisionShape3D" parent="PlayerKinematicBody"]
+[node name="CollisionShape" type="CollisionShape3D" parent="PlayerCharacterBody"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource( "1" )
 
@@ -217,6 +216,6 @@ shape = SubResource( "1" )
 [connection signal="transform_complete" from="TargetSmooth" to="PlayerController" method="_on_target_smooth_transform_complete"]
 [connection signal="avatar_setup_complete" from="TargetSmooth/Render/AvatarDisplay" to="AvatarLoader" method="_on_avatar_setup_complete"]
 [connection signal="avatar_setup_failed" from="TargetSmooth/Render/AvatarDisplay" to="AvatarLoader" method="_on_avatar_setup_failed"]
-[connection signal="touched_by_body" from="PlayerKinematicBody" to="PlayerController" method="_on_touched_by_body"]
+[connection signal="touched_by_body" from="PlayerCharacterBody" to="PlayerController" method="_on_touched_by_body"]
 
 [editable path="PlayerController/StateMachine"]
