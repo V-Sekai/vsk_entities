@@ -190,5 +190,4 @@ func setup_xr_camera():
 	else:
 		xr_camera = null
 
-# TODO: fire 2022-03-07 Delay a few seconds or attach to a button.
-#	reset_offset()
+	reset_offset()
