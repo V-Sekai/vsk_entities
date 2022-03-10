@@ -9,11 +9,11 @@ signal touched_by_body(p_body)
 
 
 func send_touched_by_body_with_network_id(p_network_id: int) -> void:
-	emit_signal("touched_by_body_with_network_id", p_network_id)
+	touched_by_body_with_network_id.emit(p_network_id)
 
 
 func send_touched_by_body(p_body) -> void:
-	emit_signal("touched_by_body", p_body)
+	touched_by_body.emit(p_body)
 	
 
 func get_entity_ref() -> RefCounted:

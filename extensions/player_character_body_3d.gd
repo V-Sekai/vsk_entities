@@ -4,4 +4,4 @@ signal touched_by_body(p_body)
 
 
 func send_touched_by_body(p_body):
-	emit_signal("touched_by_body", p_body)
+	touched_by_body.emit(p_body)

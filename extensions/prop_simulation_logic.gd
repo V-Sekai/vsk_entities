@@ -121,9 +121,9 @@ func get_physics_node() -> RigidDynamicBody3D:
 		physics_node_root.physics_material_override = physics_material
 
 		physics_node_root.set_name("Physics")
-		assert(physics_node_root.connect("body_entered", self._on_body_entered) == OK)
-		assert(physics_node_root.connect("touched_by_body", self._on_touched_by_body) == OK)
-		assert(physics_node_root.connect("touched_by_body_with_network_id", self._on_touched_by_body_with_network_id) == OK)
+		assert(physics_node_root.body_entered.connect(self._on_body_entered) == OK)
+		assert(physics_node_root.touched_by_body.connect(self._on_touched_by_body) == OK)
+		assert(physics_node_root.touched_by_body_with_network_id.connect(self._on_touched_by_body_with_network_id) == OK)
 		
 		get_entity_node().add_child(physics_node_root, true)
 	
@@ -241,7 +241,7 @@ func _entity_representation_process(p_delta: float) -> void:
 
 func _entity_ready() -> void:
 	if ! Engine.is_editor_hint():
-		assert(connect("model_loaded", self._update_physics_nodes) == OK)
+		assert(model_loaded.connect(self._update_physics_nodes) == OK)
 	
 	super._entity_ready()
 	
@@ -255,5 +255,5 @@ func _entity_ready() -> void:
 			_render_smooth.set_target(_render_smooth.get_path_to(_target))
 			_render_smooth.teleport()
 			
-		entity_node.hierarchy_component_node.connect("entity_parent_changed", self._entity_parent_changed)
+		entity_node.hierarchy_component_node.entity_parent_changed.connect(self._entity_parent_changed)
 			

@@ -111,7 +111,7 @@ func _setup_model_nodes() -> void:
 		_instantiate_scene()
 		
 		model_scene_requires_update = false
-		emit_signal("model_loaded")
+		model_loaded.emit()
 
 
 func schedule_model_update() -> void:

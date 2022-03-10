@@ -4,7 +4,7 @@ signal avatar_path_updated(p_path)
 signal did_teleport()
 
 @rpc(authority) func send_did_teleport() -> void:
-	emit_signal("did_teleport")
+	did_teleport.emit()
 
 @rpc(authority) func send_set_avatar_path(p_path: String) -> void:
-	emit_signal("avatar_path_updated", p_path)
+	avatar_path_updated.emit(p_path)

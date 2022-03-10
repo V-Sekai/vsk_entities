@@ -53,15 +53,15 @@ func _camera_mode_changed(_camera_mode: int) -> void:
 
 func _master_setup() -> void:
 	# Nametag
-	assert(VSKPlayerManager.connect("display_name_changed", self._player_name_changed) == OK)
-	assert(_camera_controller.connect("camera_mode_changed", self._camera_mode_changed) == OK)
+	assert(VSKPlayerManager.display_name_changed.connect(self._player_name_changed) == OK)
+	assert(_camera_controller.camera_mode_changed.connect(self._camera_mode_changed) == OK)
 	
 	_player_display_name_updated(get_multiplayer_authority(), VSKPlayerManager.display_name)
 	###
 	
 func _puppet_setup() -> void:
 	### Nametag ###
-	assert(VSKNetworkManager.connect("player_display_name_updated", self._player_display_name_updated) == OK)
+	assert(VSKNetworkManager.player_display_name_updated.connect(self._player_display_name_updated) == OK)
 	
 	if VSKNetworkManager.player_display_names.has(get_multiplayer_authority()):
 		_player_display_name_updated(get_multiplayer_authority(), VSKNetworkManager.player_display_names[get_multiplayer_authority()])
@@ -79,7 +79,7 @@ func setup(p_logic_node: Node) -> void:
 	else:
 		_master_setup()
 		
-	assert(VSKAvatarManager.connect("nametag_visibility_updated", self._player_info_tag_visibility_updated) == OK)
+	assert(VSKAvatarManager.nametag_visibility_updated.connect(self._player_info_tag_visibility_updated) == OK)
 
 func _update_download_progress() -> void:
 	var data_progress: Dictionary = VSKAvatarManager.get_request_data_progress(avatar_url)

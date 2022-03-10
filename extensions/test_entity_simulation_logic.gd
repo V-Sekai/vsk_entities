@@ -48,5 +48,5 @@ func _entity_physics_process(_delta: float):
 
 
 func _entity_ready() -> void:
-	assert(get_node(rpc_table).connect("session_master_spawn", self.spawn_ball_master) == OK)
-	assert(get_node(rpc_table).connect("session_puppet_spawn", self.spawn_ball_puppet) == OK)
+	assert(get_node(rpc_table).session_master_spawn.connect(self.spawn_ball_master) == OK)
+	assert(get_node(rpc_table).session_puppet_spawn.connect(self.spawn_ball_puppet) == OK)
