@@ -32,8 +32,6 @@ func show_progress(p_should_show: bool) -> void:
 		else:
 			progress_container.hide()
 		
-		$Canvas.set_dirty_flag()
-		
 func _set_progress(p_progress: float) -> void:
 	var progress_bar: ProgressBar = get_node_or_null(progress_bar_nodepath)
 	if progress_bar:
