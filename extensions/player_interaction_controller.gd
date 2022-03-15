@@ -30,6 +30,7 @@ func _ready():
 		dss = _camera_controller_node.get_world_3d().get_direct_space_state()
 		hand_id = _player_pickup_controller_node.RIGHT_HAND_ID
 
+
 func cast_flat_interaction_ray() -> Dictionary:
 	var source_global_transform = Transform3D()
 	
