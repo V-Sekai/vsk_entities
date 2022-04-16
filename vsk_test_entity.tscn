@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/vsk_entities/extensions/test_entity_rpc_table.gd" id="1"]
 [ext_resource type="Script" path="res://addons/vsk_entities/extensions/test_entity_simulation_logic.gd" id="2"]
-[ext_resource type="PackedScene" path="res://vsk_default/models/beachball/beachball.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://xwjqnmdyn5qm" path="res://vsk_default/models/beachball/beachball.tscn" id="3"]
 [ext_resource type="Script" path="res://addons/network_manager/network_logic.gd" id="4"]
 [ext_resource type="Script" path="res://addons/network_manager/network_identity.gd" id="8"]
 [ext_resource type="Script" path="res://addons/entity_manager/transform_notification.gd" id="16"]
@@ -10,10 +10,14 @@
 
 [node name="TestEntity" type="Node3D"]
 script = ExtResource( "18" )
-simulation_logic_node/spawn_model = ExtResource( "3" )
-simulation_logic_node/rpc_table = NodePath("TestEntityRPCTable")
 transform_notification_node_path = NodePath("TransformNotification")
-hierarchy_component_node_path = NodePath("")
+simulation_logic_node_path = NodePath("TestEntityController")
+network_identity_node_path = NodePath("NetworkIdentity")
+network_logic_node_path = NodePath("TestEntityNetworkLogic")
+rpc_table_node_path = NodePath("TestEntityRPCTable")
+simulation_logic_node/spawn_model = ExtResource( "3" )
+simulation_logic_node/rpc_table = NodePath("../TestEntityRPCTable")
+transform_notification_node_path = NodePath("TransformNotification")
 simulation_logic_node_path = NodePath("TestEntityController")
 network_identity_node_path = NodePath("NetworkIdentity")
 network_logic_node_path = NodePath("TestEntityNetworkLogic")

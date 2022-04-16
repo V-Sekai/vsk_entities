@@ -18,7 +18,7 @@ script = ExtResource( "7" )
 
 [node name="MovingPlatformSimulationLogic" type="Node" parent="."]
 script = ExtResource( "10" )
-_entity_node_path = NodePath("../../MovingPlatform")
+_entity_node_path = NodePath("..")
 _entity_type = "MovingPlatform"
 
 [node name="MovingPlatformNetworkLogic" type="Node" parent="."]
@@ -29,7 +29,6 @@ cached_writer_size = 128
 [node name="NetworkTransform" type="Node" parent="MovingPlatformNetworkLogic"]
 script = ExtResource( "8" )
 _entity_node_path = NodePath("../..")
-cached_writer_size = 0
 origin_interpolation_factor = 15.0
 rotation_interpolation_factor = 15.0
 snap_threshold = 5.0
@@ -37,7 +36,6 @@ snap_threshold = 5.0
 [node name="NetworkModel" type="Node" parent="MovingPlatformNetworkLogic"]
 script = ExtResource( "2" )
 _entity_node_path = NodePath("../..")
-cached_writer_size = 0
 
 [node name="NetworkIdentity" type="Node" parent="."]
 script = ExtResource( "6" )
@@ -52,9 +50,7 @@ target = NodePath("..")
 flags = 15
 
 [node name="Render" type="Node3D" parent="RenderSmooth"]
-script = null
 
 [node name="Target" type="Node3D" parent="."]
-script = null
 
 [connection signal="transform_updated" from="MovingPlatformNetworkLogic/NetworkTransform" to="MovingPlatformSimulationLogic" method="_network_transform_update"]

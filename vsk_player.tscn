@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://cdfhmtsks1t0c"]
+[gd_scene load_steps=27 format=3 uid="uid://cdfhmtsks1t0c"]
 
 [ext_resource type="Script" path="res://addons/entity_manager/entity.gd" id="1"]
 [ext_resource type="Script" path="res://addons/entity_manager/transform_notification.gd" id="2"]
@@ -10,7 +10,6 @@
 [ext_resource type="Script" path="res://addons/network_manager/network_identity.gd" id="8"]
 [ext_resource type="Script" path="res://addons/actor/player_camera_controller.gd" id="9"]
 [ext_resource type="Script" path="res://addons/vsk_entities/extensions/player_character_body_3d.gd" id="10"]
-[ext_resource type="Texture2D" uid="uid://dvgrbvniro76d" path="res://addons/extended_kinematic_body/icon_extended_kinematic_body.svg" id="11"]
 [ext_resource type="PackedScene" uid="uid://dtj4xwyh8jcdm" path="res://addons/actor/actor_state_machine.tscn" id="12"]
 [ext_resource type="Script" path="res://addons/vsk_avatar/ik_space.gd" id="13"]
 [ext_resource type="Script" path="res://addons/vsk_avatar/avatar_display.gd" id="14"]
@@ -38,6 +37,14 @@ simulation_logic_node_path = NodePath("PlayerController")
 network_identity_node_path = NodePath("NetworkIdentity")
 network_logic_node_path = NodePath("PlayerNetworkLogic")
 rpc_table_node_path = NodePath("PlayerRPCTable")
+simulation_logic_node/sprint_speed = 10.0
+simulation_logic_node/walk_speed = 5.0
+simulation_logic_node/fly_speed = 10.0
+simulation_logic_node/local_player_collision = 4
+simulation_logic_node/other_player_collision = 8
+simulation_logic_node/ik_space_path = NodePath("../TargetSmooth/Render/IKSpace")
+simulation_logic_node/avatar_loader_path = NodePath("../AvatarLoader")
+simulation_logic_node/avatar_display_path = NodePath("../TargetSmooth/Render/AvatarDisplay")
 transform_notification_node_path = NodePath("TransformNotification")
 hierarchy_component_node_path = NodePath("HierarchyComponent")
 simulation_logic_node_path = NodePath("PlayerController")
@@ -56,7 +63,7 @@ _entity_node_path = NodePath("..")
 script = ExtResource( "3" )
 _entity_node_path = NodePath("..")
 _entity_type = "Player"
-_extended_kinematic_body_path = NodePath("../PlayerCharacterBody")
+_character_body_path = NodePath("../PlayerCharacterBody")
 _state_machine_path = NodePath("StateMachine")
 _third_person_render_node_path = NodePath("../TargetSmooth/Render/AvatarDisplay")
 _render_node_path = NodePath("../TargetSmooth/Render")
@@ -75,7 +82,6 @@ other_player_collision = 8
 ik_space_path = NodePath("../TargetSmooth/Render/IKSpace")
 avatar_loader_path = NodePath("../AvatarLoader")
 avatar_display_path = NodePath("../TargetSmooth/Render/AvatarDisplay")
-_character_body_path = NodePath("../PlayerCharacterBody")
 
 [node name="StateMachine" parent="PlayerController" instance=ExtResource( "12" )]
 actor_controller_path = NodePath("..")
@@ -178,9 +184,8 @@ _camera_controller_node_path = NodePath("../../PlayerCameraController")
 _ren_ik_path = NodePath("../RenIK")
 _avatar_display_path = NodePath("../AvatarDisplay")
 
-[node name="RenIK" type="RenIK" parent="TargetSmooth/Render"]
+[node name="RenIK" type="Node" parent="TargetSmooth/Render"]
 process_priority = 1
-arm_elbow_direction_offset = 90.0
 
 [node name="InfoTag" parent="TargetSmooth" instance=ExtResource( "21" )]
 visible = false
@@ -194,9 +199,6 @@ floor_constant_speed = true
 floor_max_angle = 1.15192
 floor_snap_length = 0.2
 script = ExtResource( "10" )
-__meta__ = {
-"_editor_icon": ExtResource( "11" )
-}
 
 [node name="CollisionShape" type="CollisionShape3D" parent="PlayerCharacterBody"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

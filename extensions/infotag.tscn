@@ -23,72 +23,51 @@ translucent = true
 [node name="Container" type="VBoxContainer" parent="Canvas"]
 offset_right = 512.0
 offset_bottom = 128.0
-rect_min_size = Vector2(512, 128)
-rect_clip_content = true
-script = null
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="Label" parent="Canvas/Container"]
 offset_right = 512.0
-rect_clip_content = true
+offset_bottom = 27.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource( "2" )
-align = 1
-valign = 1
 clip_text = true
 max_lines_visible = 1
-structured_text_bidi_override_options = []
-script = null
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ProgressBarVContainer" type="VBoxContainer" parent="Canvas/Container"]
-offset_top = 4.0
+offset_top = 33.0
 offset_right = 512.0
 offset_bottom = 128.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
-script = null
 
 [node name="ProgressBarHContainer" type="HBoxContainer" parent="Canvas/Container/ProgressBarVContainer"]
-offset_top = 54.0
+offset_top = 34.0
 offset_right = 512.0
-offset_bottom = 69.0
+offset_bottom = 61.0
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 alignment = 1
-script = null
 
 [node name="Margin" type="Control" parent="Canvas/Container/ProgressBarVContainer/ProgressBarHContainer"]
 offset_right = 110.0
-offset_bottom = 15.0
+offset_bottom = 27.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.4
-script = null
 
 [node name="ProgressBar" type="ProgressBar" parent="Canvas/Container/ProgressBarVContainer/ProgressBarHContainer"]
 offset_left = 110.0
 offset_right = 387.0
-offset_bottom = 15.0
+offset_bottom = 21.0
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource( "4" )
 max_value = 1.0
-script = null
 
 [node name="Label" type="Label" parent="Canvas/Container/ProgressBarVContainer/ProgressBarHContainer"]
 offset_left = 387.0
-offset_top = 7.0
 offset_right = 512.0
-offset_bottom = 7.0
+offset_bottom = 27.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.45
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource( "4" )
-align = 1
 clip_text = true
-structured_text_bidi_override_options = []
-script = null
