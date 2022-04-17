@@ -184,8 +184,9 @@ _camera_controller_node_path = NodePath("../../PlayerCameraController")
 _ren_ik_path = NodePath("../RenIK")
 _avatar_display_path = NodePath("../AvatarDisplay")
 
-[node name="RenIK" type="Node" parent="TargetSmooth/Render"]
+[node name="RenIK" type="RenIK" parent="TargetSmooth/Render"]
 process_priority = 1
+arm_elbow_direction_offset = 90.0
 
 [node name="InfoTag" parent="TargetSmooth" instance=ExtResource( "21" )]
 visible = false
