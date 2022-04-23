@@ -10,7 +10,7 @@ func _respawn() -> void:
 
 
 func check_respawn_bounds() -> void:
-	if player_controller.get_global_origin().y < VSKMapManager.RESPAWN_HEIGHT:
+	if player_controller and player_controller.get_global_origin().y < VSKMapManager.RESPAWN_HEIGHT:
 		_respawn()
 
 
