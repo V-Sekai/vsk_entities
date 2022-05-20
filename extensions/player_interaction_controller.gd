@@ -26,10 +26,11 @@ func _ready():
 	print("My path " + str(get_path()) + " camera_con " + str(  _camera_controller_node_path))
 	_camera_controller_node = get_node_or_null(_camera_controller_node_path)
 	print("Got a cam controller " + str(_camera_controller_node))
+
+func _physics_process(_delta):
 	if !Engine.is_editor_hint():
 		dss = _camera_controller_node.get_world_3d().get_direct_space_state()
 		hand_id = _player_pickup_controller_node.RIGHT_HAND_ID
-
 
 func cast_flat_interaction_ray() -> Dictionary:
 	var source_global_transform = Transform3D()
