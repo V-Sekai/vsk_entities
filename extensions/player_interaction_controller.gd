@@ -8,8 +8,8 @@ var is_interactable: bool = true
 @export var interaction_distance : float = 2.0
 
 @export var _camera_controller_node_path: NodePath = NodePath()
-# @onready var _camera_controller_node: Node3D = get_node_or_null(_camera_controller_node_path)
-var _camera_controller_node: Node3D = null
+@onready var _camera_controller_node: Node3D = get_node_or_null(_camera_controller_node_path)
+
 
 @export var _player_pickup_controller_node_path: NodePath = NodePath()
 @onready var _player_pickup_controller_node: Node = get_node_or_null(_player_pickup_controller_node_path)
@@ -115,8 +115,7 @@ func update(p_entity: Entity, _delta: float) -> void:
 			if new_entity_ref:
 				is_interactable = is_interactable_entity_type(new_entity_ref)
 				if is_interactable:
-					# FIXME: Cast GDScript to StrongExclusiveEntityDependencyHandle
-					var tmp: Variant = p_entity.create_strong_exclusive_dependency_for(new_entity_ref)
+					var tmp: StrongExclusiveEntityDependencyHandle = p_entity.create_strong_exclusive_dependency_for(new_entity_ref)
 					strong_dependent_link = tmp
 					target_entity_ref = new_entity_ref
 		else:
