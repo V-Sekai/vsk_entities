@@ -62,7 +62,6 @@ func update_vr_camera_state():
 
 
 func reset_offset() -> void:
-	XRServer.center_on_hmd(XRServer.RESET_BUT_KEEP_TILT, true)
 	if VRManager.xr_origin:
 		VRManager.xr_origin.transform.origin = Vector3()
 	xr_camera_previous = Vector3()
