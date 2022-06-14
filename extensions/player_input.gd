@@ -189,3 +189,5 @@ func setup_xr_camera():
 		xr_camera = VRManager.xr_origin.get_node_or_null("ARVRCamera")  # Sometimes missing (???)
 	else:
 		xr_camera = null
+
+	reset_offset()
