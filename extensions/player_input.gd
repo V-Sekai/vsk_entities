@@ -61,13 +61,6 @@ func update_vr_camera_state():
 	_camera_controller_node.camera_height = camera_height
 
 
-func reset_offset() -> void:
-	if VRManager.xr_origin:
-		VRManager.xr_origin.transform.origin = Vector3()
-	xr_camera_previous = Vector3()
-	xr_camera_current = Vector3()
-
-
 # Return the origin offset translated by the entity orientation
 func transform_origin_offset(p_offset: Vector3) -> Vector3:
 	var camera_yaw_basis: Basis = Basis.from_euler(
@@ -188,5 +181,3 @@ func setup_xr_camera():
 		xr_camera = VRManager.xr_origin.get_node_or_null("ARVRCamera")  # Sometimes missing (???)
 	else:
 		xr_camera = null
-
-	reset_offset()
