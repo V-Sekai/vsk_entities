@@ -176,7 +176,6 @@ emission_angle_enabled = true
 doppler_tracking = 1
 
 [node name="IKSpace" type="Node3D" parent="TargetSmooth/Render"]
-rotation_edit_mode = 2
 script = ExtResource( "13" )
 _player_input_path = NodePath("../../../PlayerInput")
 origin_interpolation_factor = 15.0
