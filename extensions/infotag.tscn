@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://bpxjakh1f68nw"]
 
 [ext_resource type="Script" path="res://addons/vsk_entities/extensions/info_tag.gd" id="1"]
-[ext_resource type="Font" uid="uid://bhu7fta0yg38x" path="res://addons/vsk_menu/fonts/infotag_font.tres" id="2"]
+[ext_resource type="FontVariation" uid="uid://bhu7fta0yg38x" path="res://addons/vsk_menu/fonts/infotag_font.tres" id="2"]
 [ext_resource type="Script" path="res://addons/canvas_plane/canvas_3d.gd" id="3"]
-[ext_resource type="Font" uid="uid://bxpwacfmw5svn" path="res://addons/vsk_menu/fonts/infotag_progress_bar_font.tres" id="4"]
+[ext_resource type="FontVariation" uid="uid://bxpwacfmw5svn" path="res://addons/vsk_menu/fonts/infotag_progress_bar_font.tres" id="4"]
 
 [node name="InfoTag" type="Node3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2, 0)
