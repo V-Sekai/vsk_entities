@@ -3,7 +3,7 @@ extends "res://addons/vsk_entities/extensions/model_simulation_logic.gd" # model
 
 const vr_constants_const = preload("res://addons/sar1_vr_manager/vr_constants.gd")
 
-@export var hit_sample : AudioStreamSample = null
+@export var hit_sample : AudioStreamWAV = null
 @export var hit_velocity : float = 0.25
 @export var physics_material : PhysicsMaterial = null
 
