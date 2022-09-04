@@ -18,7 +18,7 @@ var sleeping: bool = false
 var _render_smooth: Node3D = null
 var _target: Node3D = null
 
-var physics_node_root: RigidDynamicBody3D = null
+var physics_node_root: RigidBody3D = null
 
 var throw_offset = Vector3(0.0, 0.0, 0.0)
 var throw_velocity = Vector3(0.0, 0.0, 0.0)
@@ -110,13 +110,13 @@ func _delete_physics_collider_nodes() -> void:
 			node.queue_free()
 			physics_node_root.get_parent().remove_child(node)
 
-func get_physics_node() -> RigidDynamicBody3D:
+func get_physics_node() -> RigidBody3D:
 	if !physics_node_root:
 		physics_node_root = model_rigid_body_const.new()
 		physics_node_root.mass = mass
 		physics_node_root.sleeping = sleeping
 		physics_node_root.contact_monitor = true
-		physics_node_root.contacts_reported = 3
+		physics_node_root.max_contacts_reported = 3
 		physics_node_root.owner_entity = get_entity_node()
 		physics_node_root.physics_material_override = physics_material
 
@@ -187,7 +187,7 @@ func _entity_parent_changed() -> void:
 
 
 func _on_body_entered(p_body):
-	if p_body is CharacterBody3D or p_body is RigidDynamicBody3D:
+	if p_body is CharacterBody3D or p_body is RigidBody3D:
 		if p_body != physics_node_root:
 			if p_body.has_method("touched_by_body"):
 				p_body.touched_by_body(physics_node_root)
