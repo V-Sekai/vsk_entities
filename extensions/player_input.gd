@@ -36,21 +36,17 @@ func _ready():
 			printerr("Could not access xr_origin!")
 
 func update_movement_input(p_target_basis: Basis) -> void:
-	var horizontal_movement: float = 0.0
-	var vertical_movement: float = 0.0
+	var movement: Vector2 = Vector2()
 	if ! (
 		VRManager.is_xr_active()
 		and ! VRManager.vr_user_preferences.movement_type == VRManager.vr_user_preferences.movement_type_enum.MOVEMENT_TYPE_LOCOMOTION
 	):
-		horizontal_movement = clamp(
-			InputManager.axes_values["move_horizontal"], -1.0, 1.0
-		)
-		vertical_movement = clamp(
-			InputManager.axes_values["move_vertical"], -1.0, 1.0
-		)
-		
-	input_direction = p_target_basis.x * horizontal_movement + p_target_basis.z * vertical_movement
-	input_magnitude = clamp(Vector2(horizontal_movement, vertical_movement).length_squared(), 0.0, 1.0)
+		movement.x = clamp(InputManager.axes_values["move_horizontal"], -1.0, 1.0)
+		movement.y = clamp(InputManager.axes_values["move_vertical"], -1.0, 1.0)
+	
+	input_magnitude = clamp(movement.length_squared(), 0.0, 1.0)
+	var movement_normalized: Vector2 = movement.normalized()
+	input_direction = p_target_basis.x * movement_normalized.x + p_target_basis.z * movement_normalized.y
 
 
 func update_vr_camera_state():
@@ -116,11 +112,11 @@ func update_representation_input(p_delta: float) -> void:
 	if InputManager.ingame_input_enabled():
 		mouse_turning_vector = (
 			Vector2(InputManager.axes_values["mouse_x"], InputManager.axes_values["mouse_y"])
-		) 
-	
+		)
+
 	var controller_turning_vector: Vector2 = Vector2(
 		InputManager.axes_values["look_horizontal"], InputManager.axes_values["look_vertical"]
-	)
+	) 
 	
 	var input_x: float = (
 		(controller_turning_vector.x + mouse_turning_vector.x)
