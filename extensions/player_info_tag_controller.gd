@@ -35,12 +35,14 @@ func _player_info_tag_visibility_updated() -> void:
 		else:
 			_player_info_tag.hide()
 			
-		_player_info_tag.show_nametag(VSKAvatarManager.show_nametags)
-		_player_info_tag.show_progress(load_stage != LOAD_STAGE_DONE)
+		if _player_info_tag.has_method("show_nametag"):
+			_player_info_tag.show_nametag(VSKAvatarManager.show_nametags)
+		if _player_info_tag.has_method("show_progress"):
+			_player_info_tag.show_progress(load_stage != LOAD_STAGE_DONE)
 
 func _player_display_name_updated(p_network_id: int, p_name: String) -> void:
 	if p_network_id == get_multiplayer_authority():
-		if _player_info_tag:
+		if _player_info_tag and _player_info_tag.has_method("set_nametag"):
 			_player_info_tag.set_nametag(p_name)
 			
 			_player_info_tag_visibility_updated()
@@ -112,7 +114,8 @@ func _on_avatar_load_stage(p_stage, p_stage_count):
 	else:
 		load_stage = LOAD_STAGE_BACKGROUND_LOADING
 	
-	_player_info_tag.set_background_load_stage(p_stage, p_stage_count)
+	if _player_info_tag.has_method("set_background_load_stage"):
+		_player_info_tag.set_background_load_stage(p_stage, p_stage_count)
 	
 	_player_info_tag_visibility_updated()
 		
