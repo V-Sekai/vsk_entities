@@ -134,8 +134,8 @@ func update_representation_input(p_delta: float) -> void:
 	if _camera_controller_node:
 		# Get snap turning mode
 		var snap_turning_enabled: bool = false
-		if VRManager.is_xr_active():
-			if VRManager.vr_user_preferences.turning_mode != VRManager.vr_user_preferences.turning_mode_enum.TURNING_MODE_SMOOTH:
+		if VRManager.is_xr_active() and VRManager.vr_user_preferences != null:
+			if VRManager.vr_user_preferences.turning_mode != VRManager.vr_user_preferences.TURNING_MODE_SMOOTH:
 				snap_turning_enabled = true
 
 		var rotation_yaw: float = _camera_controller_node.rotation_yaw
