@@ -164,7 +164,6 @@ script = ExtResource("9")
 [node name="AvatarDisplay" type="Node3D" parent="TargetSmooth/Render"]
 editor_description = "This is the container node for our actual avatar."
 script = ExtResource("14")
-use_mirror_mode = true
 shrink_mode = 0
 _ren_ik_path = NodePath("../RenIK")
 _ik_space_path = NodePath("../IKSpace")
