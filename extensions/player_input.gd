@@ -9,7 +9,7 @@ const ROTATION_SCALE: float = 4.0 # smooth turning feels weird when it's slow - 
 @onready var _camera_controller_node: Node3D = get_node_or_null(_camera_controller_node_path)
 
 @export var use_head_accumulator: bool = true
-@export var camera_height: float = 1.8
+@export var camera_height: float = 1.63
 
 var vr_locomotion_component: Node = null
 
