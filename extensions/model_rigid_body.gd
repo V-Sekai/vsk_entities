@@ -14,7 +14,7 @@ func send_touched_by_body_with_network_id(p_network_id: int) -> void:
 
 func send_touched_by_body(p_body) -> void:
 	touched_by_body.emit(p_body)
-	
+
 
 func get_entity_ref() -> RefCounted:
 	return owner_entity.get_entity_ref()

@@ -10,6 +10,7 @@ var right_hand_gesture_id: int = 0
 
 var avatar_manager: Node
 
+
 func _input(event):
 	if event is InputEventAction:
 		if event.pressed:
@@ -62,22 +63,25 @@ func _input(event):
 				"right_hand_pose_ok_sign":
 					right_hand_gesture_id = VSKAvatarManager.HAND_POSE_OK_SIGN
 					print("Right Hand Pose OK Sign")
-					
+
 	update_driver()
+
 
 func update_driver() -> void:
 	if _avatar_display and _avatar_display.avatar_node and _avatar_display.avatar_node.driver_node:
 		_avatar_display.avatar_node.driver_node.left_hand_gesture_id = left_hand_gesture_id
 		_avatar_display.avatar_node.driver_node.right_hand_gesture_id = right_hand_gesture_id
 
+
 func _puppet_setup() -> void:
 	set_process_input(false)
-	
+
+
 func _master_setup() -> void:
 	avatar_manager = $"/root/VSKAvatarManager"
 	left_hand_gesture_id = avatar_manager.HAND_POSE_NEUTRAL
 	right_hand_gesture_id = avatar_manager.HAND_POSE_NEUTRAL
-	
+
 	if Input.is_action_pressed("left_hand_pose_open"):
 		left_hand_gesture_id = avatar_manager.HAND_POSE_OPEN
 	elif Input.is_action_just_pressed("left_hand_pose_neutral"):
@@ -111,18 +115,18 @@ func _master_setup() -> void:
 		right_hand_gesture_id = avatar_manager.HAND_POSE_VICTORY
 	elif Input.is_action_pressed("right_hand_pose_ok_sign"):
 		right_hand_gesture_id = avatar_manager.HAND_POSE_OK_SIGN
-		
+
 	update_driver()
-		
+
 	set_process_input(true)
 
 
 func setup(p_logic_node: Node) -> void:
 	avatar_manager = $"/root/VSKAvatarManager"
 	logic_node = p_logic_node
-	
+
 	_avatar_display = get_node_or_null(avatar_display_path)
-	
+
 	# State machine
 	if !logic_node.is_entity_master():
 		_puppet_setup()
