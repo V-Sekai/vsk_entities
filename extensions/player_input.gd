@@ -40,9 +40,8 @@ func _ready():
 func update_movement_input(p_target_basis: Basis) -> void:
 	var horizontal_movement: float = 0.0
 	var vertical_movement: float = 0.0
-	if !(VRManager.is_xr_active() and !VRManager.vr_user_preferences.movement_type == VRManager.vr_user_preferences.movement_type_enum.MOVEMENT_TYPE_LOCOMOTION):
-		horizontal_movement = clamp(InputManager.axes_values["move_horizontal"], -1.0, 1.0)
-		vertical_movement = clamp(InputManager.axes_values["move_vertical"], -1.0, 1.0)
+	horizontal_movement = clamp(InputManager.axes_values["move_horizontal"], -1.0, 1.0)
+	vertical_movement = clamp(InputManager.axes_values["move_vertical"], -1.0, 1.0)
 
 	input_direction = p_target_basis.x * horizontal_movement + p_target_basis.z * vertical_movement
 	input_magnitude = clamp(Vector2(horizontal_movement, vertical_movement).length_squared(), 0.0, 1.0)
