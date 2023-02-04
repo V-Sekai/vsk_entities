@@ -125,7 +125,9 @@ func get_physics_node() -> RigidBody3D:
 		physics_node_root.set_name("Physics")
 		assert(physics_node_root.body_entered.connect(self._on_body_entered) == OK)
 		assert(physics_node_root.touched_by_body.connect(self._on_touched_by_body) == OK)
-		assert(physics_node_root.touched_by_body_with_network_id.connect(self._on_touched_by_body_with_network_id) == OK)
+		assert(
+			physics_node_root.touched_by_body_with_network_id.connect(self._on_touched_by_body_with_network_id) == OK
+		)
 
 		get_entity_node().add_child(physics_node_root, true)
 
@@ -221,7 +223,9 @@ func _entity_physics_process(p_delta: float) -> void:
 		if colliding_bodies.size() > 0:
 			if hit_sample:
 				if prev_linear_velocity_length - linear_velocity_length >= hit_velocity:
-					VSKAudioManager.play_oneshot_audio_stream_3d(hit_sample, VSKAudioManager.GAME_SFX_OUTPUT_BUS_NAME, get_global_transform())
+					VSKAudioManager.play_oneshot_audio_stream_3d(
+						hit_sample, VSKAudioManager.GAME_SFX_OUTPUT_BUS_NAME, get_global_transform()
+					)
 
 		prev_linear_velocity_length = linear_velocity_length
 

@@ -28,7 +28,10 @@ func _player_info_tag_visibility_updated() -> void:
 	if _player_info_tag:
 		if (
 			(VSKAvatarManager.show_nametags or load_stage != LOAD_STAGE_DONE)
-			and (!logic_node.is_entity_master() or (_camera_controller.camera_mode == _camera_controller.CAMERA_THIRD_PERSON))
+			and (
+				!logic_node.is_entity_master()
+				or (_camera_controller.camera_mode == _camera_controller.CAMERA_THIRD_PERSON)
+			)
 		):
 			_player_info_tag.show()
 		else:
@@ -68,7 +71,9 @@ func _puppet_setup() -> void:
 	assert(VSKNetworkManager.player_display_name_updated.connect(self._player_display_name_updated) == OK)
 
 	if VSKNetworkManager.player_display_names.has(get_multiplayer_authority()):
-		_player_display_name_updated(get_multiplayer_authority(), VSKNetworkManager.player_display_names[get_multiplayer_authority()])
+		_player_display_name_updated(
+			get_multiplayer_authority(), VSKNetworkManager.player_display_names[get_multiplayer_authority()]
+		)
 	###
 
 

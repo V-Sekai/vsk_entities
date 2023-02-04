@@ -19,10 +19,12 @@ func spawn_ball_master(p_requester_id, _entity_callback_id: int) -> void:
 
 	if requester_player_entity:
 		if (
-			(
-				EntityManager
-				. spawn_entity(interactable_prop_const, {"transform": requester_player_entity.get_last_transform(), "model_scene": spawn_model}, "NetEntity", p_requester_id)
-			)
+			(EntityManager.spawn_entity(
+				interactable_prop_const,
+				{"transform": requester_player_entity.get_last_transform(), "model_scene": spawn_model},
+				"NetEntity",
+				p_requester_id
+			))
 			== null
 		):
 			printerr("Could not spawn ball!")

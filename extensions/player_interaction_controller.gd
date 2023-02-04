@@ -52,7 +52,9 @@ func cast_flat_interaction_ray() -> Dictionary:
 		source_global_transform = _player_pickup_controller_node.get_head_forward_transform()
 
 	var start: Vector3 = source_global_transform.origin
-	var end: Vector3 = source_global_transform.origin + source_global_transform.basis * (Vector3(0.0, 0.0, -interaction_distance))
+	var end: Vector3 = (
+		source_global_transform.origin + source_global_transform.basis * (Vector3(0.0, 0.0, -interaction_distance))
+	)
 	var param: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.new()
 	param.from = start
 	param.to = end
@@ -122,7 +124,9 @@ func update(p_entity: Entity, _delta: float) -> void:
 			if new_entity_ref:
 				is_interactable = is_interactable_entity_type(new_entity_ref)
 				if is_interactable:
-					var tmp: StrongExclusiveEntityDependencyHandle = p_entity.create_strong_exclusive_dependency_for(new_entity_ref)
+					var tmp: StrongExclusiveEntityDependencyHandle = p_entity.create_strong_exclusive_dependency_for(
+						new_entity_ref
+					)
 					strong_dependent_link = tmp
 					target_entity_ref = new_entity_ref
 		else:
@@ -133,16 +137,13 @@ func update(p_entity: Entity, _delta: float) -> void:
 				if !_player_pickup_controller_node.get_hand_entity_reference(hand_id):
 					var attempting_grab: bool = InputManager.is_ingame_action_just_pressed("grab")
 					if attempting_grab:
-						(
-							p_entity
-							. send_entity_message(
-								target_entity_ref,
-								"attempting_grab",
-								{
-									"grabber_entity_ref": p_entity.get_entity_ref(),
-									"grabber_network_id": get_multiplayer_authority(),
-									"grabber_transform": p_entity.get_attachment_node(0).global_transform,
-									"grabber_attachment_id": hand_id
-								}
-							)
+						p_entity.send_entity_message(
+							target_entity_ref,
+							"attempting_grab",
+							{
+								"grabber_entity_ref": p_entity.get_entity_ref(),
+								"grabber_network_id": get_multiplayer_authority(),
+								"grabber_transform": p_entity.get_attachment_node(0).global_transform,
+								"grabber_attachment_id": hand_id
+							}
 						)

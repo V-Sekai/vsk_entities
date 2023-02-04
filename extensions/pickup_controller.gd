@@ -37,10 +37,14 @@ func set_hand_entity_reference(p_attachment_id: int, p_entity: EntityRef) -> voi
 	match p_attachment_id:
 		LEFT_HAND_ID:
 			left_hand_object = p_entity
-			left_hand_strong_dependent_link = player_controller.entity_node.create_strong_exclusive_dependency_for(left_hand_object)
+			left_hand_strong_dependent_link = player_controller.entity_node.create_strong_exclusive_dependency_for(
+				left_hand_object
+			)
 		RIGHT_HAND_ID:
 			right_hand_object = p_entity
-			right_hand_strong_dependent_link = player_controller.entity_node.create_strong_exclusive_dependency_for(right_hand_object)
+			right_hand_strong_dependent_link = player_controller.entity_node.create_strong_exclusive_dependency_for(
+				right_hand_object
+			)
 
 
 func clear_hand_entity_references_for_entity(p_entity: EntityRef) -> void:
