@@ -78,7 +78,7 @@ func _instantiate_scene() -> void:
 			instantiate = Node3D.new()
 			instantiate.set_name("Dummy")
 
-		var model_dictionary: Dictionary = ModelFormat.build_model_trees(instantiate)
+		var model_dictionary: Dictionary = $/root/ModelFormat.build_model_trees(instantiate)
 
 		visual_nodes = model_dictionary.visual
 		physics_nodes = model_dictionary.physics
