@@ -1,9 +1,6 @@
 @tool
 extends "res://addons/entity_manager/node_3d_simulation_logic.gd"
 
-# const model_rigid_body_const = preload("model_rigid_body.gd")
-const model_rigid_body_const = preload("res://addons/sar1_vr_manager/components/lasso_snapping/snapping_point.gd")
-
 # Render
 @export var _render_node_path: NodePath = NodePath():
 	set = set_render_node_path

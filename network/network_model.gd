@@ -20,8 +20,7 @@ func on_deserialize(p_reader: Object, p_initial_state: bool) -> Object:  # netwo
 
 
 func _network_representation_process(_delta: float) -> void:
-	# FIXME: Superclass does not have this function
-	pass  # super._network_representation_process(_delta)
+	super._entity_representation_process(_delta)
 
 
 func _ready():

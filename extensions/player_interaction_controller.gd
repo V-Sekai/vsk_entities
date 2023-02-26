@@ -109,41 +109,36 @@ func _update_current_hand_ref(p_entity: Entity, current_hand_entity_ref: EntityR
 
 
 func update(p_entity: Entity, _delta: float) -> void:
-	var current_hand_entity_ref: EntityRef = _player_pickup_controller_node.get_hand_entity_reference(hand_id)
+	var result: Dictionary = cast_flat_interaction_ray()
+	var new_entity_ref: RefCounted = get_collider_entity_ref(result)
 
-	if current_hand_entity_ref:
-		_update_current_hand_ref(p_entity, current_hand_entity_ref)
-	else:
-		var result: Dictionary = cast_flat_interaction_ray()
-		var new_entity_ref: RefCounted = get_collider_entity_ref(result)
-
-		if new_entity_ref != target_entity_ref:
-			if target_entity_ref and is_interactable:
-				strong_dependent_link = null
+	if new_entity_ref != target_entity_ref:
+		if target_entity_ref and is_interactable:
+			strong_dependent_link = null
+			target_entity_ref = new_entity_ref
+		if new_entity_ref:
+			is_interactable = is_interactable_entity_type(new_entity_ref)
+			if is_interactable:
+				var tmp: StrongExclusiveEntityDependencyHandle = p_entity.create_strong_exclusive_dependency_for(
+					new_entity_ref
+				)
+				strong_dependent_link = tmp
 				target_entity_ref = new_entity_ref
-			if new_entity_ref:
-				is_interactable = is_interactable_entity_type(new_entity_ref)
-				if is_interactable:
-					var tmp: StrongExclusiveEntityDependencyHandle = p_entity.create_strong_exclusive_dependency_for(
-						new_entity_ref
+	else:
+		# This assumes we now have a dependency created from the previous frame
+		# so we can now interact with this object
+		if target_entity_ref and is_interactable:
+			# Is my hand empty?
+			if !_player_pickup_controller_node.get_hand_entity_reference(hand_id):
+				var attempting_grab: bool = InputManager.is_ingame_action_just_pressed("grab")
+				if attempting_grab:
+					p_entity.send_entity_message(
+						target_entity_ref,
+						"attempting_grab",
+						{
+							"grabber_entity_ref": p_entity.get_entity_ref(),
+							"grabber_network_id": get_multiplayer_authority(),
+							"grabber_transform": p_entity.get_attachment_node(0).global_transform,
+							"grabber_attachment_id": hand_id
+						}
 					)
-					strong_dependent_link = tmp
-					target_entity_ref = new_entity_ref
-		else:
-			# This assumes we now have a dependency created from the previous frame
-			# so we can now interact with this object
-			if target_entity_ref and is_interactable:
-				# Is my hand empty?
-				if !_player_pickup_controller_node.get_hand_entity_reference(hand_id):
-					var attempting_grab: bool = InputManager.is_ingame_action_just_pressed("grab")
-					if attempting_grab:
-						p_entity.send_entity_message(
-							target_entity_ref,
-							"attempting_grab",
-							{
-								"grabber_entity_ref": p_entity.get_entity_ref(),
-								"grabber_network_id": get_multiplayer_authority(),
-								"grabber_transform": p_entity.get_attachment_node(0).global_transform,
-								"grabber_attachment_id": hand_id
-							}
-						)
