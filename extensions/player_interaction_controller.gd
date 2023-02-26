@@ -10,9 +10,6 @@ var is_interactable: bool = true
 @export var _camera_controller_node_path: NodePath = NodePath()
 @onready var _camera_controller_node: Node3D = get_node_or_null(_camera_controller_node_path)
 
-@export var _player_pickup_controller_node_path: NodePath = NodePath()
-@onready var _player_pickup_controller_node: Node = get_node_or_null(_player_pickup_controller_node_path)
-
 @onready var dss: PhysicsDirectSpaceState3D = null
 
 
@@ -37,10 +34,7 @@ func _physics_process(_delta):
 		return
 	if not _camera_controller_node.call("get_world_3d"):
 		return
-	if not _player_pickup_controller_node:
-		return
 	dss = _camera_controller_node.get_world_3d().get_direct_space_state()
-	hand_id = _player_pickup_controller_node.RIGHT_HAND_ID
 
 
 func cast_flat_interaction_ray() -> Dictionary:
@@ -48,8 +42,6 @@ func cast_flat_interaction_ray() -> Dictionary:
 
 	if _camera_controller_node.camera_mode == _camera_controller_node.CAMERA_FIRST_PERSON:
 		source_global_transform = _camera_controller_node.camera.global_transform
-	else:
-		source_global_transform = _player_pickup_controller_node.get_head_forward_transform()
 
 	var start: Vector3 = source_global_transform.origin
 	var end: Vector3 = (
@@ -84,14 +76,8 @@ static func get_collider_entity_ref(p_result: Dictionary) -> EntityRef:
 	return new_entity_ref
 
 
-func _on_entity_message(p_message, p_args) -> void:
-	match p_message:
-		"pickup_grab_callback":
-			if p_args["entity_ref"]:
-				_player_pickup_controller_node.set_hand_entity_reference(hand_id, p_args["entity_ref"])
-		"pickup_drop_callback":
-			if p_args["entity_ref"]:
-				_player_pickup_controller_node.set_hand_entity_reference(hand_id, null)
+func _on_entity_message(_p_message, _p_args) -> void:
+	pass
 
 
 func _update_current_hand_ref(p_entity: Entity, current_hand_entity_ref: EntityRef):
@@ -124,21 +110,3 @@ func update(p_entity: Entity, _delta: float) -> void:
 				)
 				strong_dependent_link = tmp
 				target_entity_ref = new_entity_ref
-	else:
-		# This assumes we now have a dependency created from the previous frame
-		# so we can now interact with this object
-		if target_entity_ref and is_interactable:
-			# Is my hand empty?
-			if !_player_pickup_controller_node.get_hand_entity_reference(hand_id):
-				var attempting_grab: bool = InputManager.is_ingame_action_just_pressed("grab")
-				if attempting_grab:
-					p_entity.send_entity_message(
-						target_entity_ref,
-						"attempting_grab",
-						{
-							"grabber_entity_ref": p_entity.get_entity_ref(),
-							"grabber_network_id": get_multiplayer_authority(),
-							"grabber_transform": p_entity.get_attachment_node(0).global_transform,
-							"grabber_attachment_id": hand_id
-						}
-					)
