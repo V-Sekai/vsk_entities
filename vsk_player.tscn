@@ -66,7 +66,6 @@ _target_smooth_node_path = NodePath("../TargetSmooth")
 _camera_controller_node_path = NodePath("../TargetSmooth/PlayerCameraController")
 _player_input_path = NodePath("../PlayerInput")
 _player_interaction_controller_path = NodePath("../PlayerInteractionController")
-_player_pickup_controller_path = NodePath("../PlayerPickupController")
 _player_teleport_controller_path = NodePath("../PlayerTeleportController")
 _player_info_tag_controller_path = NodePath("../PlayerInfoTagController")
 _player_hand_controller_path = NodePath("../PlayerHandController")
@@ -129,7 +128,6 @@ avatar_display_path = NodePath("../TargetSmooth/Render/AvatarDisplay")
 script = ExtResource("15")
 interaction_collision = 48
 _camera_controller_node_path = NodePath("../TargetSmooth/PlayerCameraController")
-_player_pickup_controller_node_path = NodePath("../PlayerPickupController")
 
 [node name="PlayerTeleportController" type="Node" parent="."]
 script = ExtResource("20")
